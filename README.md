@@ -25,14 +25,14 @@ Simplified online editing solution for technical documentation with support for 
 
 ```tree
 .
-|-- docs                      —— submodule editpress-rog/docs
+|-- docs                      —— submodule editpress-org/docs
 |-- packages                  ——
 |   |-- rspress-plugin        ——
 |   |-- vitepress-plugin      ——
 |   `-- vuepress-plugin       ——
-|-- rspress-docs              —— submodule editpress-rog/rspress-docs
-|-- vitepress-docs            —— submodule editpress-rog/vitepress-docs
-`-- vuepress-docs             —— submodule editpress-rog/vuepress-docs
+|-- rspress-docs              —— submodule editpress-org/rspress-docs
+|-- vitepress-docs            —— submodule editpress-org/vitepress-docs
+`-- vuepress-docs             —— submodule editpress-org/vuepress-docs
 
 ```
 
