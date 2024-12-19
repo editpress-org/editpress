@@ -36,6 +36,15 @@ Simplified online editing solution for technical documentation with support for 
 
 ```
 
+dev docs:
+
+```shell
+git clone git@github.com:editpress-org/editpress.git
+git submodule update --init
+pnpm i
+pnpm run docs:dev
+```
+
 ### launch 4 docs
 
 ```shell
