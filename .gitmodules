@@ -7,3 +7,6 @@
 [submodule "vuepress-docs"]
 	path = vuepress-docs
 	url = git@github.com:editpress-org/vuepress-docs.git
+[submodule "docs"]
+	path = docs
+	url = git@github.com:editpress-org/docs.git
