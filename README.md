@@ -1,13 +1,15 @@
 # editpress
 
-Quickly edit technical documents
+Simplified online editing solution for technical documentation with support for a variety of static site generator frameworks such as vuepress, vitepress,
 
 ## Documents
 
-- [editpress.org](https://editpress.org)
-- [rspress docs](https://rspress.editpress.org)
-- [vuepress docs](https://vuepress.editpress.org)
-- [vitepress docs](https://vite.editpress.org)
+| repository & submodules            | domain                                                     | description                 |
+| ---------------------------------- | ---------------------------------------------------------- | --------------------------- |
+| [docs](/docs/)                     | [editpress.org](https://editpress.org)                     | editpress documentation     |
+| [rspress-docs](/rspress-docs)      | [rspress.editpress.org](https://rspress.editpress.org)     | rspress-plugin playground   |
+| [vuepress-docs](/vuepress-docs)    | [vuepress.editpress.org](https://vuepress.editpress.org)   | vuepress-plugin playground  |
+| [vitepress-docs](/vietepress-docs) | [vitepress.editpress.org](https://vitepress.editpress.org) | vitepress-plugin playground |
 
 ## Features
 
@@ -19,27 +21,22 @@ Quickly edit technical documents
 
 ---
 
-一个主 docs，介绍多个站点。rspress 来维护。
-
-其次，再创建子框架站点。
-
-vuepress.editpress.org 仓库 1
-vitepress.editpress.org 仓库 2
-rspress.editpress.org 仓库 2
-editprss.org 仓库 4
-可能用得上的仓库，用于后续可能的商业化或者收费。
-vip.editpress.org 仓库 5
-
-monorepo 使用脚本强推到指定仓库去。
-
-决定还是，新开主仓库，使用脚本来维护子仓库 main 分支？
-editpress
-或者说，借助 submodule 实现。
-不知道可不可以用 workspace ～
-
 ## dev
 
-### launch 3 docs
+```tree
+.
+|-- docs                      —— submodule editpress-rog/docs
+|-- packages                  ——
+|   |-- rspress-plugin        ——
+|   |-- vitepress-plugin      ——
+|   `-- vuepress-plugin       ——
+|-- rspress-docs              —— submodule editpress-rog/rspress-docs
+|-- vitepress-docs            —— submodule editpress-rog/vitepress-docs
+`-- vuepress-docs             —— submodule editpress-rog/vuepress-docs
+
+```
+
+### launch 4 docs
 
 ```shell
 pnpm run docs:dev
