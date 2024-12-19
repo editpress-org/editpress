@@ -4,12 +4,12 @@ Simplified online editing solution for technical documentation with support for 
 
 ## Documents
 
-| repository & submodules            | domain                                                     | description                 |
-| ---------------------------------- | ---------------------------------------------------------- | --------------------------- |
-| [docs](/docs/)                     | [editpress.org](https://editpress.org)                     | editpress documentation     |
-| [rspress-docs](/rspress-docs)      | [rspress.editpress.org](https://rspress.editpress.org)     | rspress-plugin playground   |
-| [vuepress-docs](/vuepress-docs)    | [vuepress.editpress.org](https://vuepress.editpress.org)   | vuepress-plugin playground  |
-| [vitepress-docs](/vietepress-docs) | [vitepress.editpress.org](https://vitepress.editpress.org) | vitepress-plugin playground |
+| repository & submodules                                        | domain                                                        | description                 |
+| -------------------------------------------------------------- | ------------------------------------------------------------- | --------------------------- |
+| [docs](https://github.com/editpress/docs/)                     | [editpress.org 🚧](https://editpress.org)                     | editpress documentation     |
+| [rspress-docs](https://github.com/editpress/rspress-docs)      | [rspress.editpress.org 🚧](https://rspress.editpress.org)     | rspress-plugin playground   |
+| [vuepress-docs](https://github.com/editpress/vuepress-docs)    | [vuepress.editpress.org 🚧](https://vuepress.editpress.org)   | vuepress-plugin playground  |
+| [vitepress-docs](https://github.com/editpress/vietepress-docs) | [vitepress.editpress.org 🚧](https://vitepress.editpress.org) | vitepress-plugin playground |
 
 ## Features
 
@@ -22,6 +22,8 @@ Simplified online editing solution for technical documentation with support for 
 ---
 
 ## dev
+
+folders:
 
 ```tree
 .
