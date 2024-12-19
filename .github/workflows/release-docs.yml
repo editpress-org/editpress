@@ -1,0 +1,54 @@
+name: release docs CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: choice
+        description: 'Release Version (next, beta, alpha, latest)'
+        required: true
+        default: 'next'
+        options:
+          - next
+          - beta
+          - alpha
+          - latest
+      branch:
+        description: 'Release Branch (confirm release branch)'
+        required: true
+        default: 'main'
+      run_eco_ci:
+        description: 'Run Rsbuild ecosystem CI before release'
+        type: boolean
+        required: false
+        default: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: 步骤：第一步 -> Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: 步骤：第二步 -> 安装依赖
+        run: |
+          npm install
+          npm run build
+        env:
+          CI: true
+
+      - name: 步骤：第三步 -> 使用脚本部署
+        env:
+          ACCESS_TOKEN_DEPLOY: ${{secrets.ACCESS_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./docs/.vuepress/dist
+          CNAME: editable.veaba.me
+        uses: veaba/vuepress-actions@v0.83

@@ -1,0 +1,86 @@
+.focus-editable {
+  position: relative;
+}
+.focus-editable,
+.focus-editable:focus {
+  border: 1px solid #3eaf7c;
+  outline: 0;
+  padding: 0 2px;
+}
+
+.focus-editable.no-edit {
+  border-style: dotted;
+}
+.editable-menu {
+  position: absolute;
+  right: 0;
+  top: -30px;
+  font-size: 13px;
+}
+.editable-menu span {
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.editable-review-warp {
+  position: relative;
+  display: flex;
+  width: 1280px;
+  margin: 0 auto;
+  height: 80%;
+  padding-top: 40px;
+  box-sizing: border-box;
+  background: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.editable-review-btn {
+  text-align: center;
+  padding-top: 10px;
+  width: 100%;
+  height: 40px;
+  background: #fff;
+}
+
+.editable-review-code {
+  flex: 1;
+}
+.editable-review-code::after {
+  display: block;
+  content: "";
+  clear: both;
+}
+.editable-review-code h3 {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 4px;
+}
+.editable-origin-code {
+  background: #ffeef0;
+}
+
+.editable-new-code {
+  /* background: #e6ffed; */
+  background: #fff;
+}
+
+.editable-review-body {
+  position: relative;
+  /* float: left;
+  width: 50%; */
+  margin: 0 auto;
+  padding: 20px;
+  height: 100%;
+  box-sizing: border-box;
+  min-height: 200px;
+}
+
+.editable-new-content {
+  border: 1px solid #ddd;
+  padding: 10px;
+  background: #fff;
+}
+
+.editable-new-content > div {
+  height: 18px;
+  line-height: 18px;
+}

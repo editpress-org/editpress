@@ -1,0 +1,25 @@
+{
+  "name": "@editable/vuepress-plugin",
+  "version": "0.0.1",
+  "author": "veaba",
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs"
+  },
+  "homepage": "https://github.com/editpress-org/editpress",
+  "bugs": {
+    "url": "https://github.com/editpress-org/editpress/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/editpress-org/editpress.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "vuepress": "^1.8.2"
+  }
+}

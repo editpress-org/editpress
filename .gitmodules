@@ -1,0 +1,9 @@
+[submodule "rspress-docs"]
+	path = rspress-docs
+	url = git@github.com:editpress-org/rspress-docs.git
+[submodule "vitepress-docs"]
+	path = vitepress-docs
+	url = git@github.com:editpress-org/vitepress-docs.git
+[submodule "vuepress-docs"]
+	path = vuepress-docs
+	url = git@github.com:editpress-org/vuepress-docs.git

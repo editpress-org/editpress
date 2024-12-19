@@ -1,0 +1,6 @@
+packages:
+  - 'docs'
+  - 'packages/**'
+  - 'vuepress-docs/**'
+  - 'vitepress-docs/**'
+  - 'rspress-docs/**'

@@ -1,0 +1,34 @@
+{
+  "name": "editable-monorepo",
+  "version": "1.1.1",
+  "author": "veaba",
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "docs-dev": "rspress dev",
+    "docs:dev": "pnpm --filter=*-docs docs run docs:dev & rspress dev",
+    "lint": "biome check . --diagnostic-level=warn"
+  },
+  "homepage": "https://github.com/editpress-org/editpress",
+  "bugs": {
+    "url": "https://github.com/editpress-org/editpress/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/editpress-org/editpress.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "rspress": "^1.38.0"
+  },
+  "dependencies": {
+    "@shikijs/markdown-it": "^1.24.2"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  }
+}
