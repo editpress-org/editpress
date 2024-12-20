@@ -4,3 +4,4 @@ packages:
   - 'vuepress-docs/**'
   - 'vitepress-docs/**'
   - 'rspress-docs/**'
+  - 'docs/**'

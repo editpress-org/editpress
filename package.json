@@ -5,8 +5,7 @@
   "license": "MIT",
   "main": "src/index.js",
   "scripts": {
-    "docs-dev": "rspress dev",
-    "docs:dev": "pnpm --filter=*-docs docs run docs:dev & rspress dev",
+    "docs:dev": "pnpm --filter *-docs run docs:dev",
     "lint": "biome check . --diagnostic-level=warn"
   },
   "homepage": "https://github.com/editpress-org/editpress",
