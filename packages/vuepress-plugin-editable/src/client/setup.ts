@@ -1,6 +1,6 @@
-import './style.css';
-import bus from '../node/eventBus';
-import { themeData } from '@internal/themeData';
+// import './style.css';
+// import bus from '../node/eventBus';
+import { useThemeData } from '@vuepress/plugin-theme-data';
 import { ref, onMounted } from 'vue'
 import { fetchOps } from '../node/fetchConfig';
 import { usePageData, useRoute } from 'vuepress/client';
@@ -21,26 +21,37 @@ interface GetOriginContent {
 }
 
 // TODO themeConfig
-// $page
+
+interface ExtendPages {
+  appDomain: string
+  getContentAPI: string
+  updateAPI: string,
+  redirectAPI: string,
+  clientId: string
+  githubOAuthUrl: string,
+}
 
 export default function setup(props, { emit }) {
-  const $page = usePageData()
+  const $page = usePageData() as Record<string, any>
+
+  console.log('$page=>', $page)
 
   const router = useRoute()
   const preLine = ref<number | null>(null)
   const preNode = ref<EventTarget | null>(null)
   const preNodeContent = ref({})
   const isPlainTextStatus = ref(false)
+  const themeData = useThemeData()
 
   onMounted(async () => {
     const targetNode = document.querySelector('body');
-    let isEditable = null;
+    let isEditable = '';
     const dblClick = (event: Event) => {
       const { target } = event
       if (!(target instanceof Element)) return;
       const currentLine = target.getAttribute('data-editable-line');
       if (currentLine || currentLine != null) {
-        isEditable = target.getAttribute('contenteditable');
+        isEditable = target.getAttribute('contenteditable') as string;
         let oAuth = 'Github OAuth';
         target.classList.add('focus-editable');
         if (!isOAuthStatus()) {
@@ -94,7 +105,7 @@ export default function setup(props, { emit }) {
    */
   const outsideClick = (event: Event) => {
     const { target } = event
-    if (!(target instanceof Element)) return null;
+    if (!(target instanceof Element)) return;
     const clickLine = target.getAttribute('data-editable-line');
     if (preLine.value && Number(clickLine) !== preLine.value && !target.classList.contains('no-need-close')) {
       if (preNode.value) {
@@ -121,7 +132,9 @@ export default function setup(props, { emit }) {
     removeMenu();
 
     const { target } = event
-    if (!(target instanceof Element)) return null;
+    if (!(target instanceof Element)) return;
+
+    const $editable: ExtendPages = $page.$editable;
 
     const parenNode = document.createElement('strong');
     parenNode.classList.add('editable-menu');
@@ -129,15 +142,17 @@ export default function setup(props, { emit }) {
     parenNode.setAttribute('contenteditable', 'false');
     const vNode = document.createDocumentFragment();
 
+    // TODO=========== 重构为 markdown-it + shiki
+
     for (let key in btnWords) {
-      let childNode = null;
+      let childNode: Element | HTMLAnchorElement | undefined = undefined;
       if (key !== 'oAuth') {
-        childNode = document.createElement('span');
+        childNode = document.createElement('span') as Element;
       } else {
-        childNode = document.createElement('a');
+        childNode = document.createElement('a') as HTMLAnchorElement;
         // TODO
-        const { githubOAuthUrl, clientId, redirectAPI } = $page.$editable || {};
-        childNode.href = `${githubOAuthUrl}?client_id=${clientId}&redirect_uri=${redirectAPI}?reference=${location.href}`;
+        const { githubOAuthUrl, clientId, redirectAPI } = $editable || {};
+        (childNode as HTMLAnchorElement).href = `${githubOAuthUrl}?client_id=${clientId}&redirect_uri=${redirectAPI}?reference=${location.href}`;
       }
 
       childNode.innerHTML = btnWords[key as keyof BtnWords] as string;
@@ -159,7 +174,7 @@ export default function setup(props, { emit }) {
 
   const bindMenuEvent = (event: Event) => {
     const target = event.target;
-    if (!(target instanceof Element)) return null;
+    if (!(target instanceof Element)) return;
     if (target.classList.contains('editable-apply') || target.classList.contains('editable-update')) {
       updatePR();
     }
@@ -180,7 +195,7 @@ export default function setup(props, { emit }) {
    * @param event
    * */
   const updatePR = () => {
-    const repoPrefix = themeData.repo || '';
+    const repoPrefix = themeData.value.repo || '';
     if (!repoPrefix || !repoPrefix.length) {
       console.warn('Warning: You have not set the repo url');
       return;

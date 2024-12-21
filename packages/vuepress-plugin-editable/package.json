@@ -2,11 +2,11 @@
   "name": "@editpress/vuepress-plugin-editable",
   "version": "0.0.1",
   "author": "veaba",
-  "type": "module",
   "license": "MIT",
   "main": "dist/index.js",
+  "type": "module",
   "scripts": {
-    "dev": "vuepress dev docs",
+    "dev": "rslib build --watch",
     "build": "rslib build && vue-tsc"
   },
   "homepage": "https://github.com/editpress-org/editpress",
@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.11.17",
+    "@vuepress/plugin-theme-data": "2.0.0-rc.0",
     "tsconfig-vuepress": "^5.2.1",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
