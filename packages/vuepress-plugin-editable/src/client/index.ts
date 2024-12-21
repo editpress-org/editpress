@@ -16,7 +16,11 @@ export default defineClientConfig({
 
   enhancePage(page: Page, app) {
 
-    console.log('app=>', app)
+    
+    // _filePath==> F:\Github\veaba\vuepress-plugin-editable\docs\README.md
+    // cwd==> F:\Github\veaba\vuepress-plugin-editable
+    // $page.remoteRelativePath==> /docs/README.md
+    console.log('client app=>', app)
     // extend page data
     // const { _context, filePath = '' } = page;
     // const cwdLen = _context.cwd.length;

@@ -19,12 +19,28 @@ export const editablePlugin = (options: Options) => ({
     md.use(generateLine, app);
   },
   extendsPage(page: Page, app: App) {
-    const { _context, filePath = '' } = page;
-    const cwdLen = 222; // TODO
-    // const cwdLen = _context.cwd.length;
+    const cwdLen = process.cwd().length;
+    // cwd F:\Github\repos\editpress-org\editpress\packages\vuepress-plugin-editable>
 
-    console.log('extendsPage=>', page);
-    page.remoteRelativePath = filePath?.substring(0, cwdLen).replace(/\\/g, '/');
+
+    const { filePath } = page
+    console.log('extendsPage=>', page.data.filePathRelative);
+    console.log('node extendsPage 1 =>', page.filePath);
+    console.log('node extendsPage 2 =>', page.filePathRelative);
+    console.log('node extendsPage 2 =>', app.options.source);
+    const { theme,...otherOptions }= app.options
+    console.log('node otherOptions=>', otherOptions);
+
+    console.log('node extendsPage 3 =>', filePath);
+
+    // node extendsPage 1 => F:/Github/repos/editpress-org/editpress/vuepress-docs/docs/get-started.md
+    // node extendsPage 2 => get-started.md
+    // node extendsPage 2 => F:/Github/repos/editpress-org/editpress/vuepress-docs/docs
+
+    page.remoteRelativePath = filePath?.substring(cwdLen).replace(/\\/g, '/');
+
+    console.log('基于仓库的文件地址------->', page.remoteRelativePath)
+
     const tempUpdateAPI = (options.appDomain || _appDomain) + (options.updateAPI || _updateAPI);
     const tempGetContentAPI = (options.appDomain || _appDomain) + (options.getContentAPI || _getContentAPI);
     const tempRedirectAPI = (options.appDomain || _appDomain) + (options.redirectAPI || _redirectAPI);
