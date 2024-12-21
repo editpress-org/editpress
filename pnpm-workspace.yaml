@@ -1,5 +1,4 @@
 packages:
-  - 'docs'
   - 'packages/**'
   - 'vuepress-docs/**'
   - 'vitepress-docs/**'

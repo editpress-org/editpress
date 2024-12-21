@@ -1,26 +1,23 @@
-<!--
- @design by @veaba
- -->
 <template>
   <div class="editable-loading" v-if="loading">
     <div class="editable-storm-loading"></div>
   </div>
 </template>
-<script>
-import bus from "../eventBus";
-export default {
-  name: "EditableLoading",
-  data() {
-    return {
-      loading: false,
-    };
-  },
-  mounted() {
-    bus.$on("showLoading", (status) => {
-      this.loading = status;
-    });
-  },
-};
+
+<script setup>
+import { ref } from 'vue';
+import bus from '../eventBus';
+
+// 定义响应式数据loading
+const loading = ref(false);
+
+// 在组件挂载后监听showLoading事件来更新loading的值
+onMounted(() => {
+  bus.$on('showLoading', (status) => {
+    loading.value = status;
+  });
+});
+
 </script>
 
 <style scoped>
@@ -56,7 +53,7 @@ export default {
 
 .editable-storm-loading:before {
   position: absolute;
-  content: "";
+  content: '';
   width: 20px;
   height: 20px;
   border-top: 4px solid rgba(62, 175, 124, 0.85);
@@ -75,7 +72,7 @@ export default {
 }
 .editable-storm-loading:after {
   position: relative;
-  content: "Loading...";
+  content: 'Loading...';
   color: rgb(62, 175, 124);
   top: 50%;
   left: 50%;

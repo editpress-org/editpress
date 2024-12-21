@@ -1,5 +1,5 @@
 {
-  "name": "@editable/vuepress-plugin",
+  "name": "@editpress/vuepress-plugin-editable",
   "version": "0.0.1",
   "author": "veaba",
   "license": "MIT",
@@ -20,6 +20,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "vuepress": "^1.8.2"
+    "vue-tsc": "^2.1.10",
+    "vuepress": "2.0.00-rc.19"
   }
 }

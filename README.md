@@ -52,3 +52,10 @@ pnpm run docs:dev
 ```shell
 pnpm run docs:dev
 ```
+
+| SSG Frameworks | localhost url         |
+| -------------- | --------------------- |
+| docs           | http://localhost:8080 |
+| rspress-docs   | http://localhost:8081 |
+| vitepress-docs | http://localhost:8082 |
+| vuepress-docs  | http://localhost:8083 |

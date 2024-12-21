@@ -1,12 +1,13 @@
 {
-  "name": "@editable/vitepress-plugin",
+  "name": "@editpress/vuepress-plugin-editable",
   "version": "0.0.1",
   "author": "veaba",
+  "type": "module",
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "vuepress dev docs",
-    "build": "vuepress build docs"
+    "build": "rslib build && vue-tsc"
   },
   "homepage": "https://github.com/editpress-org/editpress",
   "bugs": {
@@ -20,6 +21,11 @@
     "access": "public"
   },
   "devDependencies": {
-    "vuepress": "^1.8.2"
+    "@types/node": "^18.11.17",
+    "tsconfig-vuepress": "^5.2.1",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0",
+    "vue-tsc": "^2.1.10",
+    "vuepress": "2.0.00-rc.19"
   }
 }

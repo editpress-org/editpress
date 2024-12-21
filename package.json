@@ -6,6 +6,8 @@
   "main": "src/index.js",
   "scripts": {
     "docs:dev": "pnpm --filter *-docs run docs:dev",
+    "build:vue": "pnpm --filter @editpress/vuepress-plugin-editable run build",
+    "dev": "pnpm --filter vuepress-docs run docs:dev",
     "lint": "biome check . --diagnostic-level=warn"
   },
   "homepage": "https://github.com/editpress-org/editpress",
@@ -20,10 +22,13 @@
     "access": "public"
   },
   "devDependencies": {
+    "@rsbuild/plugin-vue": "^1.0.5",
+    "@rslib/core": "^0.1.5",
     "rspress": "^1.38.0"
   },
   "dependencies": {
-    "@shikijs/markdown-it": "^1.24.2"
+    "@shikijs/markdown-it": "^1.24.2",
+    "markdown-it": "^14.1.0"
   },
   "workspaces": {
     "packages": [
