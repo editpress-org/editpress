@@ -8,3 +8,10 @@ export const configAPI = {
   _getContentAPI: '/api/github/content/get',
   _githubOAuthUrl: 'https://github.com/login/oauth/authorize',
 };
+
+export const fetchOps: Record<string, string> = {
+	mode: "cors",
+	cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+	redirect: "follow", // manual, *follow, error
+	referrer: "no-referrer", // *client, no-referrer
+};

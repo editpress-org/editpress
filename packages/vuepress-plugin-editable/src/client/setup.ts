@@ -1,36 +1,14 @@
 // import './style.css';
 // import bus from '../node/eventBus';
-import { useThemeData } from '@vuepress/plugin-theme-data';
+import { useThemeData } from '@vuepress/plugin-theme-data/client';
+import type { ThemeData } from '@vuepress/plugin-theme-data/client';
 import { ref, onMounted } from 'vue'
-import { fetchOps } from '../node/fetchConfig';
+import { fetchOps } from '../shared/config';
 import { usePageData, useRoute } from 'vuepress/client';
+import type { BtnWords, ExtendPages, GetOriginContent, PostSingleData } from '../types';
 
-interface BtnWords {
-  apply?: string;
-  restore?: string;
-  update?: string;
-  oAuth?: string;
-}
 
-interface PostSingleData {
-  (owner: string, repo: string, path: string, content: string, line: number): void
-}
-
-interface GetOriginContent {
-  (owner: string, repo: string, path: string): void
-}
-
-// TODO themeConfig
-
-interface ExtendPages {
-  appDomain: string
-  getContentAPI: string
-  updateAPI: string,
-  redirectAPI: string,
-  clientId: string
-  githubOAuthUrl: string,
-}
-
+// TODO
 export default function setup(props, { emit }) {
   const $page = usePageData() as Record<string, any>
 
@@ -41,7 +19,9 @@ export default function setup(props, { emit }) {
   const preNode = ref<EventTarget | null>(null)
   const preNodeContent = ref({})
   const isPlainTextStatus = ref(false)
-  const themeData = useThemeData()
+  const themeData = useThemeData() as ThemeData as unknown as { repo?: string };
+
+  console.log('themeData=>', themeData)
 
   onMounted(async () => {
     const targetNode = document.querySelector('body');
@@ -195,7 +175,8 @@ export default function setup(props, { emit }) {
    * @param event
    * */
   const updatePR = () => {
-    const repoPrefix = themeData.value.repo || '';
+    // const repoPrefix = themeData?.value.repo || '';
+    const repoPrefix = themeData.repo || '';
     if (!repoPrefix || !repoPrefix.length) {
       console.warn('Warning: You have not set the repo url');
       return;

@@ -1,7 +1,12 @@
-import { configAPI } from './config';
+/**
+ * entry for node
+*/
+import { configAPI } from '../shared/config';
 import type { App, Page } from 'vuepress/core';
 import type { Markdown } from 'vuepress/markdown';
 import { generateLine } from './line';
+import { path, getDirname } from 'vuepress/utils';
+
 const { _appDomain, _redirectAPI, _clientId, _updateAPI, _getContentAPI, _githubOAuthUrl } = configAPI;
 
 interface Options {
@@ -12,7 +17,10 @@ interface Options {
   clientId?: string;
   canReview?: boolean;
 }
+const __dirname = getDirname(import.meta.url)
 
+
+console.log('__dirname', __dirname)
 export const editablePlugin = (options: Options) => ({
   name: 'vuepress-plugin-editable',
   extendsMarkdown(md: Markdown, app: App) {
@@ -47,4 +55,10 @@ export const editablePlugin = (options: Options) => ({
 
   // TODO=====
   // clientConfigFile: resolve(__dirname, 'client.config.js'),
+  // clientConfigFile: () => {
+  //   return path.resolve(process.__dirname, './client/config.js');
+  //   // return path.resolve(process.__dirname, './client/config.js');
+  // },
+  clientConfigFile: path.resolve(__dirname, '../client/config.js'),
+  // clientConfigFile: path.resolve(__dirname, '../client/config.js'),
 });

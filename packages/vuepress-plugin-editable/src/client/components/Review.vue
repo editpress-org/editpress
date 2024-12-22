@@ -47,7 +47,7 @@
 <script setup>
 import { ref, onMounted, computed, nextTick } from 'vue';
 import bus from '../eventBus';
-import { fetchOps } from '../fetchConfig';
+import { fetchOps } from '../../shared/config';
 import Position from './Position';
 
 // 定义响应式数据
