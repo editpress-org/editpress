@@ -46,9 +46,9 @@
 
 <script setup>
 import { ref, onMounted, computed, nextTick } from 'vue';
-import bus from '../eventBus';
-import { fetchOps } from '../../shared/config';
-import Position from './Position';
+// import bus from '../eventBus';
+import { fetchOps } from '../../shared/config.js';
+import Position from './Position.vue';
 
 // 定义响应式数据
 const eventData = ref({
@@ -66,11 +66,11 @@ const breakLines = computed(() => originContentLine.value + otherDivLine.value);
 // 挂载时的逻辑
 onMounted(() => {
   originContentLine.value = countOriginContent(eventData.value.content);
-  bus.$on('showReview', (data) => {
-    eventData.value = data;
-    originContentLine.value = countOriginContent(data.content);
-    bodyScrollDefaultValue.value = switchBodyScroll();
-  });
+  // bus.$on('showReview', (data) => {
+  //   eventData.value = data;
+  //   originContentLine.value = countOriginContent(data.content);
+  //   bodyScrollDefaultValue.value = switchBodyScroll();
+  // });
 });
 
 // 定义关闭模态框的方法
@@ -137,7 +137,7 @@ const onApplyPullRequest = () => {
   disabled.value = true;
   const contentNode = document.querySelector('.editable-new-content');
   const content = contentNode && contentNode.innerText;
-  bus.$emit('showLoading', true);
+  // bus.$emit('showLoading', true);
   const { updateAPI } = window.$page.$editable || {};
   fetch(updateAPI, {
     body: JSON.stringify({
@@ -164,11 +164,11 @@ const onApplyPullRequest = () => {
         }, 5000);
       }
       switchBodyScroll();
-      bus.$emit('showLoading', false);
-      bus.$emit('onReceive', data, true);
+      // bus.$emit('showLoading', false);
+      // bus.$emit('onReceive', data, true);
     })
   .catch(() => {
-      bus.$emit('showLoading', false);
+      // bus.$emit('showLoading', false);
       switchBodyScroll();
     });
 };

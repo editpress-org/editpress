@@ -26,7 +26,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import bus from '../eventBus';
+// import bus from '../eventBus';
 
 // 定义响应式数据
 const borderColor = ref('#ddd');
@@ -52,18 +52,18 @@ const subMessage = (str) => {
 
 // 挂载时监听事件
 onMounted(() => {
-  bus.$on('onClose', () => {
-    status.value = false;
-  });
-  bus.$on('onReceive', (json = {}, _status) => {
-    res.value = { ...json };
-    status.value = _status;
-    if (res.value.success) {
-      borderColor.value = '#3eaf7c';
-    } else {
-      borderColor.value = '#eb7350';
-    }
-  });
+  // bus.$on('onClose', () => {
+  //   status.value = false;
+  // });
+  // bus.$on('onReceive', (json = {}, _status) => {
+  //   res.value = { ...json };
+  //   status.value = _status;
+  //   if (res.value.success) {
+  //     borderColor.value = '#3eaf7c';
+  //   } else {
+  //     borderColor.value = '#eb7350';
+  //   }
+  // });
 });
 
 const showNotFoundRepoLink = computed(() => !res.value.success && res.value?.not_found_repo_link);

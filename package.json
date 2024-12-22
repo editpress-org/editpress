@@ -3,7 +3,7 @@
   "version": "1.1.1",
   "author": "veaba",
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "docs:dev": "pnpm --filter *-docs run docs:dev",
     "build:vue": "pnpm --filter @editpress/vuepress-plugin-editable run build",

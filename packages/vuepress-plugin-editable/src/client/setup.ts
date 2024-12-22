@@ -3,7 +3,7 @@
 import { useThemeData } from '@vuepress/plugin-theme-data/client';
 import type { ThemeData } from '@vuepress/plugin-theme-data/client';
 import { ref, onMounted } from 'vue'
-import { fetchOps } from '../shared/config';
+import { fetchOps } from '../shared/config.js';
 import { usePageData, useRoute } from 'vuepress/client';
 import type { BtnWords, ExtendPages, GetOriginContent, PostSingleData } from '../types';
 

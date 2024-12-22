@@ -3,12 +3,15 @@
   "version": "0.0.1",
   "author": "veaba",
   "license": "MIT",
-  "main": "dist/node/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "type": "module",
   "scripts": {
     "dev": "rslib build --watch",
     "build": "rslib build & vue-tsc",
-    "build2": "rsbuild build & vue-tsc"
+    "build2": "rsbuild build & vue-tsc",
+    "build3": "vue-tsc"
   },
   "homepage": "https://github.com/editpress-org/editpress",
   "bugs": {

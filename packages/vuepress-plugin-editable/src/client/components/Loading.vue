@@ -5,17 +5,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import bus from '../eventBus';
+import { ref,onMounted } from 'vue';
+// import bus from '../eventBus';
 
 // 定义响应式数据loading
 const loading = ref(false);
 
 // 在组件挂载后监听showLoading事件来更新loading的值
 onMounted(() => {
-  bus.$on('showLoading', (status) => {
-    loading.value = status;
-  });
+  // bus.$on('showLoading', (status) => {
+  //   loading.value = status;
+  // });
 });
 
 </script>

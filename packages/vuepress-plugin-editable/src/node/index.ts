@@ -1,10 +1,10 @@
 /**
  * entry for node
 */
-import { configAPI } from '../shared/config';
+import { configAPI } from '../shared/config.js';
 import type { App, Page } from 'vuepress/core';
 import type { Markdown } from 'vuepress/markdown';
-import { generateLine } from './line';
+import { generateLine } from './line.js';
 import { path, getDirname } from 'vuepress/utils';
 
 const { _appDomain, _redirectAPI, _clientId, _updateAPI, _getContentAPI, _githubOAuthUrl } = configAPI;
