@@ -3,7 +3,7 @@
     v-if="eventData.status"
     class="editable-review"
     :style="{
-      'z-index': eventData.status? 2 : -1
+      'z-index': eventData.status ? 2 : -1,
     }"
   >
     <div class="editable-review-warp">
@@ -13,29 +13,15 @@
         <div class="editable-new-code editable-review-body">
           <p>
             Powered by
-            <a
-              href="https://github.com/editpress-org/editpress/"
-              target="_blank"
-            >
-              vuepress-plugin-editable
-            </a>
+            <a href="https://github.com/editpress-org/editpress/" target="_blank"> vuepress-plugin-editable </a>
             and
-            <a href="https://github.com/veaba/veaba-bot/" target="_blank">
-              veaba-bot
-            </a>
+            <a href="https://github.com/veaba/veaba-bot/" target="_blank"> veaba-bot </a>
           </p>
           <!-- `<pre>` elements and content are not on the same line, there will be indentation problems.-->
-          <pre
-            class="editable-new-content"
-            contenteditable="true"
-            @input="onChange"
-            >{{ eventData.content }}</pre
-          >
+          <pre class="editable-new-content" contenteditable="true" @input="onChange">{{ eventData.content }}</pre>
           <!-- btn -->
           <div class="editable-review-btn">
-            <button @click="onApplyPullRequest" :disabled="disabled">
-              应用(Apply)
-            </button>
+            <button @click="onApplyPullRequest" :disabled="disabled">应用(Apply)</button>
             <button @click="closeModal">关闭(Close)</button>
           </div>
         </div>
@@ -53,7 +39,7 @@ import Position from './Position.vue';
 // 定义响应式数据
 const eventData = ref({
   content: '',
-  status: false
+  status: false,
 });
 const disabled = ref(false);
 const originContentLine = ref(0);
@@ -62,16 +48,6 @@ const bodyScrollDefaultValue = ref('');
 
 // 计算属性 breakLines
 const breakLines = computed(() => originContentLine.value + otherDivLine.value);
-
-// 挂载时的逻辑
-onMounted(() => {
-  originContentLine.value = countOriginContent(eventData.value.content);
-  // bus.$on('showReview', (data) => {
-  //   eventData.value = data;
-  //   originContentLine.value = countOriginContent(data.content);
-  //   bodyScrollDefaultValue.value = switchBodyScroll();
-  // });
-});
 
 // 定义关闭模态框的方法
 const closeModal = () => {
@@ -144,18 +120,18 @@ const onApplyPullRequest = () => {
       owner: eventData.value.owner,
       repo: eventData.value.repo,
       path: eventData.value.path,
-      content: content
+      content: content,
     }),
     method: 'POST',
-   ...fetchOps,
+    ...fetchOps,
     headers: new Headers({
       'Access-Token': sessionStorage.githubOAuthAccessToken,
       'Github-Login': sessionStorage.githubLogin,
-      'Content-Type': 'Application/json'
-    })
+      'Content-Type': 'Application/json',
+    }),
   })
-  .then((res) => res.json())
-  .then((data) => {
+    .then((res) => res.json())
+    .then((data) => {
       disabled.value = false;
       if (data.success) {
         eventData.value.status = false;
@@ -167,12 +143,20 @@ const onApplyPullRequest = () => {
       // bus.$emit('showLoading', false);
       // bus.$emit('onReceive', data, true);
     })
-  .catch(() => {
+    .catch(() => {
       // bus.$emit('showLoading', false);
       switchBodyScroll();
     });
 };
-
+onMounted(() => {
+  // originContentLine.value = countOriginContent(eventData.value.content);
+  console.log('review');
+  // bus.$on('showReview', (data) => {
+  //   eventData.value = data;
+  //   originContentLine.value = countOriginContent(data.content);
+  //   bodyScrollDefaultValue.value = switchBodyScroll();
+  // });
+});
 </script>
 
 <style scoped>

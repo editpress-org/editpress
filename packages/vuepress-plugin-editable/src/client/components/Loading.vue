@@ -1,24 +1,25 @@
-<template>
-  <div class="editable-loading" v-if="loading">
-    <div class="editable-storm-loading"></div>
-  </div>
-</template>
-
-<script setup>
-import { ref,onMounted } from 'vue';
+<script lang="ts" setup>
+import { ref, onMounted } from 'vue';
 // import bus from '../eventBus';
 
 // 定义响应式数据loading
 const loading = ref(false);
 
 // 在组件挂载后监听showLoading事件来更新loading的值
+
 onMounted(() => {
+  console.log('我是 Loading 组件');
   // bus.$on('showLoading', (status) => {
   //   loading.value = status;
   // });
 });
-
 </script>
+
+<template>
+  <div class="editable-loading" v-if="loading">
+    <div class="editable-storm-loading"></div>
+  </div>
+</template>
 
 <style scoped>
 .editable-loading {

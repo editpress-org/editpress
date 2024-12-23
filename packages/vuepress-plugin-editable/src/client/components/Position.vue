@@ -1,25 +1,16 @@
 <!--
 文件行数 定位
 -->
+<script setup lang="ts">
+
+defineProps<{ lines: Number }>();
+
+</script>
 <template>
   <div class="editable-lines">
     <span v-for="item in lines" :key="item">{{ item }}</span>
   </div>
 </template>
-
-<script setup>
-import { toRefs } from 'vue';
-
-// 接收父组件传递的props
-const props = defineProps({
-  lines: {
-    type: Number,
-  },
-});
-
-// 使用toRefs解构props，方便后续在模板中使用且保持响应性
-const { lines } = toRefs(props);
-</script>
 
 <style scoped>
 .editable-lines {

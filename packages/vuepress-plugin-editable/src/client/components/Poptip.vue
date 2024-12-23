@@ -26,6 +26,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
+import setup from '../setup';
 // import bus from '../eventBus';
 
 // 定义响应式数据
@@ -36,19 +37,6 @@ const res = ref({
   message: '',
 });
 const status = ref(false);
-
-// 定义关闭弹框的方法
-const closePoptip = () => {
-  status.value = false;
-  if (!res.value.success) {
-    location.reload();
-  }
-};
-
-// 处理消息的方法
-const subMessage = (str) => {
-  return (str || '').replace(/^.*: /g, '');
-};
 
 // 挂载时监听事件
 onMounted(() => {
@@ -66,8 +54,20 @@ onMounted(() => {
   // });
 });
 
-const showNotFoundRepoLink = computed(() => !res.value.success && res.value?.not_found_repo_link);
+// 定义关闭弹框的方法
+const closePoptip = () => {
+  status.value = false;
+  if (!res.value.success) {
+    location.reload();
+  }
+};
 
+// 处理消息的方法
+const subMessage = (str) => {
+  return (str || '').replace(/^.*: /g, '');
+};
+
+const showNotFoundRepoLink = computed(() => !res.value.success && res.value?.not_found_repo_link);
 </script>
 
 <style scoped>

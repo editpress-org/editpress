@@ -20,13 +20,15 @@ interface Options {
 }
 const __dirname = getDirname(import.meta.url)
 
-
-console.log('__dirname', __dirname)
 export const editablePlugin = (options: Options) => ({
   name: pkg.name,
   extendsMarkdown(md: Markdown, app: App) {
+    console.log('extendsMarkdown=>')
     md.use(generateLine, app);
   },
+  /**
+   * 对 page data 附加新属性~
+  */
   extendsPage(page: Page) {
     const cwdLen = process.cwd().length;
     const { filePath } = page
@@ -60,6 +62,22 @@ export const editablePlugin = (options: Options) => ({
   //   return path.resolve(process.__dirname, './client/config.js');
   //   // return path.resolve(process.__dirname, './client/config.js');
   // },
-  clientConfigFile: path.resolve(__dirname, '../client/config.js'),
-  // clientConfigFile: path.resolve(__dirname, '../client/config.js'),
+  clientConfigFile: (app) => {
+    console.log('clientConfigFile=>')
+    return path.resolve(__dirname, '../client/config.js')
+  },
+  onInitialized(app: App) {
+    console.log('onInitialized=>', '初始化后被立即调用');
+  },
+  //  VuePress App 完成文件准备后被立即调用
+  onPrepared() {
+    console.log('onPrepared=>', 'file ready');
+    // console.log('onPrepared app=>', app);')
+  },
+  onWatched(app: App, watchers, restart) {
+    console.log('onWatched watchers=>');
+  },
+  onGenerated(app: App) {
+    console.log('onGenerated=>', '静态构建完成');
+  },
 });

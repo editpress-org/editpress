@@ -9,10 +9,10 @@ import type { BtnWords, ExtendPages, GetOriginContent, PostSingleData } from '..
 
 
 // TODO
-export default function setup(props, { emit }) {
+export default function setup() {
   const $page = usePageData() as Record<string, any>
 
-  console.log('$page=>', $page)
+  console.log('$page=>', $page.value)
 
   const router = useRoute()
   const preLine = ref<number | null>(null)
@@ -73,6 +73,10 @@ export default function setup(props, { emit }) {
     saveAccessToken();
   })
 
+  // TODO emit
+  const emit = (type: string, data?: any, status?: boolean) => {
+    console.log('emit=>', type, data, status)
+  }
   const saveAccessToken = () => {
     const { accessToken, login } = router.query;
     if (accessToken) {
