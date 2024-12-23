@@ -36,7 +36,8 @@ export const editablePlugin = (options: Options) => ({
     const tempUpdateAPI = (options.appDomain || _appDomain) + (options.updateAPI || _updateAPI);
     const tempGetContentAPI = (options.appDomain || _appDomain) + (options.getContentAPI || _getContentAPI);
     const tempRedirectAPI = (options.appDomain || _appDomain) + (options.redirectAPI || _redirectAPI);
-    page.$editable = {
+    // 透传给 client
+    page.data.$editable = {
       appDomain: options.appDomain || _appDomain,
       getContentAPI: tempGetContentAPI,
       updateAPI: tempUpdateAPI,
@@ -65,19 +66,5 @@ export const editablePlugin = (options: Options) => ({
   clientConfigFile: (app) => {
     console.log('clientConfigFile=>')
     return path.resolve(__dirname, '../client/config.js')
-  },
-  onInitialized(app: App) {
-    console.log('onInitialized=>', '初始化后被立即调用');
-  },
-  //  VuePress App 完成文件准备后被立即调用
-  onPrepared() {
-    console.log('onPrepared=>', 'file ready');
-    // console.log('onPrepared app=>', app);')
-  },
-  onWatched(app: App, watchers, restart) {
-    console.log('onWatched watchers=>');
-  },
-  onGenerated(app: App) {
-    console.log('onGenerated=>', '静态构建完成');
   },
 });

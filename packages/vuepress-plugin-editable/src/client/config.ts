@@ -9,9 +9,9 @@ import { onMounted } from 'vue';
 export default defineClientConfig({
   /** enhance */
   enhance({ app, router }) {
-    app.component('EditableReview', EditableReview);
-    app.component('EditableLoading', EditableLoading);
-    app.component('EditablePoptip', EditablePoptip);
+    // app.component('EditableReview', EditableReview);
+    // app.component('EditableLoading', EditableLoading);
+    // app.component('EditablePoptip', EditablePoptip);
   },
   rootComponents: [
     EditableReview,

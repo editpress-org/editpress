@@ -2,7 +2,7 @@
 // import bus from '../node/eventBus';
 import { useThemeData } from '@vuepress/plugin-theme-data/client';
 import type { ThemeData } from '@vuepress/plugin-theme-data/client';
-import { ref, onMounted } from 'vue'
+import { createElementBlock, h, render, ref, onMounted, defineEmits, createApp } from 'vue'
 import { fetchOps } from '../shared/config.js';
 import { usePageData, useRoute } from 'vuepress/client';
 import type { BtnWords, ExtendPages, GetOriginContent, PostSingleData } from '../types';
@@ -12,8 +12,6 @@ import type { BtnWords, ExtendPages, GetOriginContent, PostSingleData } from '..
 export default function setup() {
   const $page = usePageData() as Record<string, any>
 
-  console.log('$page=>', $page.value)
-
   const router = useRoute()
   const preLine = ref<number | null>(null)
   const preNode = ref<EventTarget | null>(null)
@@ -21,49 +19,13 @@ export default function setup() {
   const isPlainTextStatus = ref(false)
   const themeData = useThemeData() as ThemeData as unknown as { repo?: string };
 
+  // TODO how use emit in setup syntax
+  const emit = defineEmits(['showLoading', 'showReview', 'onClose', 'onReceive'])
+
   console.log('themeData=>', themeData)
 
-  onMounted(async () => {
+  onMounted(() => {
     const targetNode = document.querySelector('body');
-    let isEditable = '';
-    const dblClick = (event: Event) => {
-      const { target } = event
-      if (!(target instanceof Element)) return;
-      const currentLine = target.getAttribute('data-editable-line');
-      if (currentLine || currentLine != null) {
-        isEditable = target.getAttribute('contenteditable') as string;
-        let oAuth = 'Github OAuth';
-        target.classList.add('focus-editable');
-        if (!isOAuthStatus()) {
-          createMenu(event, { oAuth });
-        }
-        if (isPlainText(target)) {
-          target.classList.remove('no-edit');
-          if (isOAuthStatus()) {
-            createMenu(event, {
-              apply: '应用',
-              restore: '还原',
-            });
-            target.setAttribute('contenteditable', 'true');
-            listenerInput(event);
-          }
-        } else {
-          target.classList.add('no-edit');
-          if (isOAuthStatus()) {
-            createMenu(event, {
-              update: '修改',
-              restore: '还原',
-            });
-          }
-        }
-
-        preLine.value = Number(currentLine)
-        preNode.value = event.target;
-        // temp handler 实际上这种处理方式欠妥
-        preNodeContent.value = target.innerHTML.replace(/<strong(.+?)strong>/g, '');
-      }
-    };
-
     if (targetNode) {
       targetNode.removeEventListener('dblclick', dblClick);
       targetNode.addEventListener('dblclick', dblClick);
@@ -73,10 +35,44 @@ export default function setup() {
     saveAccessToken();
   })
 
-  // TODO emit
-  const emit = (type: string, data?: any, status?: boolean) => {
-    console.log('emit=>', type, data, status)
-  }
+  const dblClick = (event: Event) => {
+    const { target } = event
+    console.log('双击')
+    if (!(target instanceof Element)) return;
+    const currentLine = target.getAttribute('data-editable-line');
+    if (currentLine || currentLine != null) {
+      let oAuth = 'Github OAuth';
+      target.classList.add('focus-editable');
+      if (!isOAuthStatus()) {
+        createMenu(event, { oAuth });
+      }
+      if (isPlainText(target)) {
+        target.classList.remove('no-edit');
+        if (isOAuthStatus()) {
+          createMenu(event, {
+            apply: '应用',
+            restore: '还原',
+          });
+          target.setAttribute('contenteditable', 'true');
+          listenerInput(event);
+        }
+      } else {
+        target.classList.add('no-edit');
+        if (isOAuthStatus()) {
+          createMenu(event, {
+            update: '修改',
+            restore: '还原',
+          });
+        }
+      }
+
+      preLine.value = Number(currentLine)
+      preNode.value = event.target;
+      // temp handler 实际上这种处理方式欠妥
+      preNodeContent.value = target.innerHTML.replace(/<strong(.+?)strong>/g, '');
+    }
+  };
+
   const saveAccessToken = () => {
     const { accessToken, login } = router.query;
     if (accessToken) {
@@ -108,45 +104,47 @@ export default function setup() {
    * @param event
    * @param btnWords { Object}
    * {apply: "应用",
-      restore: "还原", // redirect update
-      update: "修改" // call console ui
-      }
-   */
+   *   restore: "还原", // redirect update
+   *   update: "修改" // call console ui
+   * }
+  */
   const createMenu = (event: Event, btnWords: BtnWords) => {
     removeMenu();
-
     const { target } = event
-    if (!(target instanceof Element)) return;
+    if (!(target instanceof Element)) {
+      return
+    };
 
-    const $editable: ExtendPages = $page.$editable;
+    const $editable: ExtendPages = $page.value?.$editable;
 
-    const parenNode = document.createElement('strong');
-    parenNode.classList.add('editable-menu');
-    parenNode.classList.add('no-need-close');
-    parenNode.setAttribute('contenteditable', 'false');
-    const vNode = document.createDocumentFragment();
-
-    // TODO=========== 重构为 markdown-it + shiki
-
-    for (let key in btnWords) {
-      let childNode: Element | HTMLAnchorElement | undefined = undefined;
-      if (key !== 'oAuth') {
-        childNode = document.createElement('span') as Element;
-      } else {
-        childNode = document.createElement('a') as HTMLAnchorElement;
-        // TODO
+    // Vue h 函数方式创建
+    const vNode = h('strong', {
+      class: ['editable-menu', 'no-need-close'],
+      props: {
+        key: new Date().getTime(),
+      },
+      contenteditable: false,
+    }, [
+      Object.entries(btnWords).map(([key, value]) => {
+        if (key !== 'oAuth') {
+          return h('span', {
+            class: ['no-need-close', 'editable-' + key],
+            contenteditable: false
+          }, value)
+        }
         const { githubOAuthUrl, clientId, redirectAPI } = $editable || {};
-        (childNode as HTMLAnchorElement).href = `${githubOAuthUrl}?client_id=${clientId}&redirect_uri=${redirectAPI}?reference=${location.href}`;
-      }
+        const href = `${githubOAuthUrl}?client_id=${clientId}&redirect_uri=${redirectAPI}?reference=${window.location.href}`;
 
-      childNode.innerHTML = btnWords[key as keyof BtnWords] as string;
-      childNode.setAttribute('contenteditable', 'false');
-      childNode.classList.add('no-need-close');
-      childNode.classList.add('editable-' + key);
-      vNode.appendChild(childNode);
-    }
-    parenNode.appendChild(vNode);
-    target.appendChild(parenNode);
+        return h('a', {
+          class: ['no-need-close', `editable-${key}`],
+          contenteditable: false,
+          href
+        }, value);
+      })
+    ])
+
+    const isVNode = (target as any)._vnode?.__v_isVNode;
+    render(isVNode ? null : vNode, target)
   }
   /**
    * remove menu
