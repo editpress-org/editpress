@@ -3,14 +3,16 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "lib": ["DOM", "ES2022"],
+    "isolatedModules":true,
     "module": "ESNext",
     "outDir": "dist",
     "moduleResolution": "bundler",
     "noEmitOnError": true,
     "noImplicitAny": false,
+    "rootDir": "./src",
     "skipLibCheck": true,
-    // "types": ["vuepress/client-types"],
-    "target": "ES2022",
+    "esModuleInterop": true,
+    "target": "ES2022"
   },
-  "include": ["src"]
+  "include": ["./src"]
 }

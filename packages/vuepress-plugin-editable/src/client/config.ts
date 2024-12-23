@@ -1,5 +1,5 @@
 import { defineClientConfig } from 'vuepress/client';
-import type { App, Page } from 'vuepress/core';
+// import { defaultTheme } from '@vuepress/theme-default'
 import EditableReview from './components/Review.vue';
 import EditableLoading from './components/Loading.vue';
 import EditablePoptip from './components/Poptip.vue';

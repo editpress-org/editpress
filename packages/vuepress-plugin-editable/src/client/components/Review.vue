@@ -175,7 +175,7 @@ const onApplyPullRequest = () => {
 
 </script>
 
-<style lang="stylus" scoped>
+<style scoped>
 .editable-review {
   position: fixed;
   left: 0;

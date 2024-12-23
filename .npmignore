@@ -1,0 +1,10 @@
+docs
+rspress-docs
+vitepress-docs
+vuepress-docs
+.idea
+.github
+.npmignore
+nx.json
+.gitmodules
+node_modules
