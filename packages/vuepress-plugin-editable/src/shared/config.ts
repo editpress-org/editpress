@@ -1,4 +1,5 @@
-const _appDomain = 'https://bot.veaba.me';
+const _appDomain = 'http://127.0.0.1:9091';
+// const _appDomain = 'https://bot.veaba.me';
 
 export const configAPI = {
 	_appDomain,

@@ -3,7 +3,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "lib": ["DOM", "ES2022"],
-    "isolatedModules":true,
+    "isolatedModules": true,
     "module": "ESNext",
     "outDir": "dist",
     "moduleResolution": "bundler",
@@ -12,7 +12,8 @@
     "rootDir": "./src",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "target": "ES2022"
+    "target": "ES2022",
+    "types": ["vite/client"]
   },
-  "include": ["./src"]
+  "include": ["src"]
 }

@@ -5,15 +5,15 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/typing.d.ts",
   "files": [
     "dist"
   ],
   "type": "module",
   "scripts": {
     "dev": "rslib build --watch",
-    "build": "rslib build & vue-tsc",
-    "build3": "vue-tsc"
+    "build": "rslib build --watch",
+    "vue-tsc": "vue-tsc"
   },
   "homepage": "https://github.com/editpress-org/editpress",
   "bugs": {
@@ -31,6 +31,7 @@
     "@vuepress/plugin-theme-data": "2.0.0-rc.0",
     "@vuepress/theme-default": "2.0.0-rc.66",
     "tsconfig-vuepress": "^5.2.1",
+    "vite": "^6.0.6",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
     "vue-tsc": "^2.1.10",

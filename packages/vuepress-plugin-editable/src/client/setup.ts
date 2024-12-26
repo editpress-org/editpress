@@ -2,15 +2,15 @@
 // import bus from '../node/eventBus';
 import { useThemeData } from '@vuepress/plugin-theme-data/client';
 import type { ThemeData } from '@vuepress/plugin-theme-data/client';
-import { createElementBlock, h, render, ref, onMounted, defineEmits, createApp } from 'vue'
+import { onUnmounted, h, render, ref, onMounted, defineEmits, createApp } from 'vue'
 import { fetchOps } from '../shared/config.js';
 import { usePageData, useRoute } from 'vuepress/client';
-import type { BtnWords, ExtendPages, GetOriginContent, PostSingleData } from '../types';
+import type { BtnWords, ExtendPages, GetOriginContent, PostSingleData } from '../typings.js';
 
 
 // TODO
 export default function setup() {
-  const $page = usePageData() as Record<string, any>
+  const pageData = usePageData() as Record<string, any>
 
   const router = useRoute()
   const preLine = ref<number | null>(null)
@@ -33,7 +33,29 @@ export default function setup() {
       targetNode.addEventListener('click', outsideClick);
     }
     saveAccessToken();
+    const vpNode = document.querySelector('.vp-page')
+    if (vpNode) {
+      editpressSign()
+      vpNode.addEventListener('click', onMountedVPPage);
+    }
   })
+  onUnmounted(() => {
+    const vpNode = document.querySelector('.vp-page')
+    if (vpNode) {
+      vpNode.removeEventListener('click', onMountedVPPage);
+    }
+  })
+
+  // mounted vp-page
+  const onMountedVPPage = () => {
+    console.log('click vp page')
+  }
+
+  // add editpress sign
+  const editpressSign = () => {
+
+  }
+
 
   const dblClick = (event: Event) => {
     const { target } = event
@@ -115,14 +137,11 @@ export default function setup() {
       return
     };
 
-    const $editable: ExtendPages = $page.value?.$editable;
+    const editableData: ExtendPages = pageData.value?.editableData
 
     // Vue h 函数方式创建
     const vNode = h('strong', {
       class: ['editable-menu', 'no-need-close'],
-      props: {
-        key: new Date().getTime(),
-      },
       contenteditable: false,
     }, [
       Object.entries(btnWords).map(([key, value]) => {
@@ -130,16 +149,16 @@ export default function setup() {
           return h('span', {
             class: ['no-need-close', 'editable-' + key],
             contenteditable: false
-          }, value)
+          }, value as string)
         }
-        const { githubOAuthUrl, clientId, redirectAPI } = $editable || {};
+        const { githubOAuthUrl, clientId, redirectAPI } = editableData || {};
         const href = `${githubOAuthUrl}?client_id=${clientId}&redirect_uri=${redirectAPI}?reference=${window.location.href}`;
 
         return h('a', {
           class: ['no-need-close', `editable-${key}`],
           contenteditable: false,
           href
-        }, value);
+        }, value as string);
       })
     ])
 
@@ -198,9 +217,9 @@ export default function setup() {
 
     if (isPlainTextStatus) {
       onRemoveFocusEditable();
-      postSinglePR(owner, repo, $page.remoteRelativePath, content, Number(line));
+      postSinglePR(owner, repo, pageData.remoteRelativePath, content, Number(line));
     } else {
-      getOriginContent(owner, repo, $page.remoteRelativePath);
+      getOriginContent(owner, repo, pageData.remoteRelativePath);
     }
   }
   /**
@@ -211,7 +230,7 @@ export default function setup() {
     // bus.$emit('onClose');
     emit('showLoading', true);
     emit('onClose');
-    const { updateAPI } = $page.$editable || {};
+    const { updateAPI } = pageData.editableData || {};
     fetch(updateAPI, {
       method: 'POST',
       body: JSON.stringify({
@@ -299,7 +318,7 @@ export default function setup() {
   const getOriginContent: GetOriginContent = (owner, repo, path) => {
     emit('showLoading', true);
     emit('onClose');
-    const { getContentAPI } = $page.$editable || {};
+    const { getContentAPI } = pageData.editableData || {};
     // owner repo path
     fetch(getContentAPI + '?owner=' + owner + '&repo=' + repo + '&path=' + path, {
       method: 'GET',

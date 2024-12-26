@@ -22,3 +22,12 @@ export interface ExtendPages {
   clientId: string
   githubOAuthUrl: string,
 }
+
+// CSS
+declare module '*.css' {}
+declare module '*.css';
+
+declare module '*.module.css' {
+  const classes: { [key: string]: string };
+  export default classes;
+}

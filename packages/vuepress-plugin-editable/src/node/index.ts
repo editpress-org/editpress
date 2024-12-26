@@ -23,7 +23,6 @@ const __dirname = getDirname(import.meta.url)
 export const editablePlugin = (options: Options) => ({
   name: pkg.name,
   extendsMarkdown(md: Markdown, app: App) {
-    console.log('extendsMarkdown=>')
     md.use(generateLine, app);
   },
   /**
@@ -37,7 +36,7 @@ export const editablePlugin = (options: Options) => ({
     const tempGetContentAPI = (options.appDomain || _appDomain) + (options.getContentAPI || _getContentAPI);
     const tempRedirectAPI = (options.appDomain || _appDomain) + (options.redirectAPI || _redirectAPI);
     // 透传给 client
-    page.data.$editable = {
+    page.data.editableData = {
       appDomain: options.appDomain || _appDomain,
       getContentAPI: tempGetContentAPI,
       updateAPI: tempUpdateAPI,
