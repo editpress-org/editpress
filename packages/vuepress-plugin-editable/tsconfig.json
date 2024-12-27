@@ -13,7 +13,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "target": "ES2022",
-    "types": ["vite/client"]
+    "types": ["vite/client", "vitest/config"]
   },
   "include": ["src"]
 }

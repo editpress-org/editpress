@@ -6,7 +6,7 @@ import type { App, Page } from 'vuepress/core';
 import type { Markdown } from 'vuepress/markdown';
 import { generateLine } from './line.js';
 import { path, getDirname } from 'vuepress/utils';
-import pkg from '../../package.json' with {type: "json"}
+import pkg from '../../package.json'  with {type: "json"}
 
 const { _appDomain, _redirectAPI, _clientId, _updateAPI, _getContentAPI, _githubOAuthUrl } = configAPI;
 
@@ -21,6 +21,7 @@ interface Options {
 const __dirname = getDirname(import.meta.url)
 
 export const editablePlugin = (options: Options) => ({
+  // name: JSON.stringify(require('../../package.json').name),
   name: pkg.name,
   extendsMarkdown(md: Markdown, app: App) {
     md.use(generateLine, app);

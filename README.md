@@ -59,3 +59,10 @@ pnpm run docs:dev
 | rspress-docs   | http://localhost:8081 |
 | vitepress-docs | http://localhost:8082 |
 | vuepress-docs  | http://localhost:8083 |
+
+
+```diff
+
+code dist-vue/client/setup.js  dist-vue-tsc/client/setup.js --diff
+
+```
