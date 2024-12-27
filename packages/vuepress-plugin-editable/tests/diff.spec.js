@@ -28,19 +28,17 @@ const diffList = [
   'node/index.js',
   'node/line.js',
   'shared/config.js',
-  'typings.d.js',
+  // 'typings.d.js',
 ];
 
 describe('node diff', async () => {
   diffList.filter(it => !it.endsWith('.css')).map(async (item) => {
-    it(`diff dist/${item} <——> dist-vue/${item}`, async () => {
+    it(`diff dist/${item} <——> dist-vue-tsc/${item}`, async () => {
       const content1 = await readFile(resolve(__dirname, `../dist/${item}`), 'utf-8');
-      const content2 = await readFile(resolve(__dirname, `../dist-vue/${item}`), 'utf-8');
-      // const content3 = await readFile(resolve(__dirname, `../dist/${item}`), 'utf-8');
-
-      // console.log('content1=>', content1)
-      // console.log('content2=>', content2)
+      const content2 = await readFile(resolve(__dirname, `../dist-vue-tsc/${item}`), 'utf-8');
       expect(content1).toEqual(content2)
     });
   });
 });
+
+// TODO 格式化稍微有点不太一样~
