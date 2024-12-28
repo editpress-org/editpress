@@ -2,4 +2,16 @@
 
 Use with root directory
 
-## 此过程 rslib 起个 毛作用啊~ 我丢~
+## TODO list
+
+### client
+
+- shiki
+- markdown-it
+- event bus
+
+### server
+
+- API
+  - 拉取 single file， no auth
+    - 纯拉取: https://raw.githubusercontent.com/editpress-org/vuepress-docs/refs/heads/main/docs/get-started.md

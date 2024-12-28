@@ -1,5 +1,6 @@
-import { h, ref, onMounted, defineComponent } from 'vue';
+import { h, ref, onMounted, defineComponent, computed } from 'vue';
 import type { VNode } from 'vue'
+import { useStore } from '../../useStore';
 
 import './index.module.css'
 // 定义处理消息的方法
@@ -10,34 +11,18 @@ const subMessage = (str: string) => {
 export default defineComponent({
   name: 'Poptip',
   setup() {
-    const borderColor = ref('#ddd');
-    const res = ref({
-      success: true,
-      data: {
-        html_url: '',
-        repo: ''
-      },
-      message: '',
-      not_found_repo_link: ''
-    });
-    const status = ref(false);
 
-    // 挂载时监听事件
-    onMounted(() => {
-      // 这里原本使用eventBus的逻辑，需要根据实际情况替换
-      // bus.$on('onClose', () => {
-      //   status.value = false;
-      // });
-      // bus.$on('onReceive', (json = {}, _status) => {
-      //   res.value = {...json };
-      //   status.value = _status;
-      //   if (res.value.success) {
-      //     borderColor.value = '#3eaf7c';
-      //   } else {
-      //     borderColor.value = '#eb7350';
-      //   }
-      // });
-    });
+    const { storeData } = useStore();
+    const res = ref(storeData.poptipData);
+    const status = ref(storeData.status);
+
+    const borderColor = computed(() => {
+      if (res.value.success) {
+        return '#3eaf7c';
+      } else {
+        return '#eb7350';
+      }
+    })
 
     // 定义关闭弹框的方法
     const closePoptip = () => {

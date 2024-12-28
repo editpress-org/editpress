@@ -15,5 +15,6 @@
     "target": "ES2022",
     "types": ["vite/client", "vitest/config"]
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["@internal/themeData", "@vuepress/client"]
 }

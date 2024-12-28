@@ -5,24 +5,20 @@ import type { ThemeData } from '@vuepress/plugin-theme-data/client';
 import { onUnmounted, h, render, ref, onMounted, defineEmits, createApp } from 'vue'
 import { fetchOps } from '../shared/config.js';
 import { usePageData, useRoute } from 'vuepress/client';
+import { useStore } from './useStore'
 import type { BtnWords, ExtendPages, GetOriginContent, PostSingleData } from '../typings.js';
 
 
 // TODO
 export default function setup() {
   const pageData = usePageData() as Record<string, any>
-
+  const { storeData, actions } = useStore()
   const router = useRoute()
   const preLine = ref<number | null>(null)
   const preNode = ref<EventTarget | null>(null)
   const preNodeContent = ref({})
   const isPlainTextStatus = ref(false)
   const themeData = useThemeData() as ThemeData as unknown as { repo?: string };
-
-  // TODO how use emit in setup syntax
-  const emit = defineEmits(['showLoading', 'showReview', 'onClose', 'onReceive'])
-
-  console.log('themeData=>', themeData)
 
   onMounted(() => {
     const targetNode = document.querySelector('body');
@@ -207,7 +203,6 @@ export default function setup() {
     // plain text 模式下，menuNode 不是node 的直接子级
     menuNode && menuNode.remove();
 
-    // TODO
     if (!node) return
 
     const content = normalizeNodeInner((node as HTMLElement)?.innerText);
@@ -226,10 +221,8 @@ export default function setup() {
    * handler plain text PR
    */
   const postSinglePR: PostSingleData = (owner, repo, path, content, line) => {
-    // bus.$emit('showLoading', true);
-    // bus.$emit('onClose');
-    emit('showLoading', true);
-    emit('onClose');
+    actions.setLoading(true)
+    actions.setClose(true)
     const { updateAPI } = pageData.editableData || {};
     fetch(updateAPI, {
       method: 'POST',
@@ -250,11 +243,11 @@ export default function setup() {
         return res.json();
       })
       .then((data) => {
-        emit('onReceive', data, true);
-        emit('showLoading', false);
+        actions.setReviewData(data)
+        actions.setLoading(false)
       })
       .catch(() => {
-        emit('showLoading', false);
+        actions.setLoading(false)
       });
   }
   /**
@@ -316,8 +309,8 @@ export default function setup() {
    * get origin source file content
    */
   const getOriginContent: GetOriginContent = (owner, repo, path) => {
-    emit('showLoading', true);
-    emit('onClose');
+    actions.setLoading(true)
+    actions.setClose(true)
     const { getContentAPI } = pageData.editableData || {};
     // owner repo path
     fetch(getContentAPI + '?owner=' + owner + '&repo=' + repo + '&path=' + path, {
@@ -330,21 +323,22 @@ export default function setup() {
     })
       .then((res) => res.json())
       .then((data) => {
-        emit('showLoading', false);
+        actions.setLoading(false)
         if (data.success) {
-          emit('showReview', {
+          actions.setReviewData({
             status: true,
             owner,
             repo,
             path,
             content: data.data,
-          });
+          })
+
         } else {
-          emit('onReceive', data, true);
+          actions.setPoptipData(data, true)
         }
       })
       .catch(() => {
-        emit('showLoading', false);
+        actions.setLoading(false)
       });
   }
   /*

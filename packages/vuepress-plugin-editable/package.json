@@ -3,19 +3,18 @@
   "version": "0.0.1",
   "author": "veaba",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/typing.d.ts",
+  "main": "./dist/node/index.js",
+  "module": "./dist/node/index.js",
   "files": [
     "dist"
   ],
   "type": "module",
   "scripts": {
-    "dev": "rslib build --watch",
-    "build": "rslib build --watch",
-    "vue-tsc": "rslib build & vue-tsc",
+    "dev": "tsup --watch",
+    "build": "tsup --watch",
     "test:ui": "vitest --ui",
-    "test": "vitest"
+    "test": "vitest",
+    "tsup": "tsup --watch"
   },
   "homepage": "https://github.com/editpress-org/editpress",
   "bugs": {
@@ -29,17 +28,16 @@
     "access": "public"
   },
   "devDependencies": {
-    "@rsbuild/plugin-typed-css-modules": "^1.0.2",
     "@rspack/core": "^1.1.8",
     "@types/node": "^18.11.17",
     "@vuepress/plugin-theme-data": "2.0.0-rc.0",
     "@vuepress/theme-default": "2.0.0-rc.66",
     "tsconfig-vuepress": "^5.2.1",
+    "tsup": "^8.3.5",
     "vite": "^6.0.6",
     "vitest": "^2.1.8",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
-    "vue-tsc": "^2.1.10",
     "vuepress": "2.0.00-rc.19"
   }
 }

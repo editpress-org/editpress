@@ -31,3 +31,12 @@ declare module '*.module.css' {
   const classes: { [key: string]: string };
   export default classes;
 }
+
+export interface Options {
+  appDomain?: string;
+  getContentAPI?: string;
+  updateAPI?: string;
+  redirectAPI?: string;
+  clientId?: string;
+  canReview?: boolean;
+}

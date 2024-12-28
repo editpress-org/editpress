@@ -3,23 +3,19 @@ import type { VNode } from 'vue'
 import { fetchOps } from '../../../shared/config';
 import { usePageData } from 'vuepress/client';
 import Position from '../Position'
+import { useStore } from '../../useStore'
 import './index.module.css'
 
 export default defineComponent({
   name: 'Review',
   setup() {
     const pageData = usePageData() as Record<string, any>
+    const { storeData, actions } = useStore()
 
     // 定义响应式数据
-    const eventData = ref({
-      content: '',
-      status: false,
-      owner: '',
-      repo: '',
-      path: ''
-    });
+    const eventData = ref(storeData.reviewData);
     const disabled = ref(false);
-    const originContentLine = ref(0);
+    const originContentLine = ref(storeData.reviewData.content?.length);
     const otherDivLine = ref(0);
     const bodyScrollDefaultValue = ref('');
 
@@ -85,7 +81,7 @@ export default defineComponent({
       const contentNode = document.querySelector('.editable-new-content');
       if (!contentNode) return
       const content = (contentNode as HTMLElement)?.innerText as string;
-      // bus.$emit('showLoading', true);
+      actions.setLoading(true)
       const { updateAPI } = pageData.editableData || {};
       fetch(updateAPI, {
         body: JSON.stringify({
@@ -112,23 +108,19 @@ export default defineComponent({
             }, 5000);
           }
           switchBodyScroll();
-          // bus.$emit('showLoading', false);
-          // bus.$emit('onReceive', data, true);
+          actions.setLoading(false)
+          actions.setReviewData(data)
         })
         .catch(() => {
-          // bus.$emit('showLoading', false);
+          actions.setLoading(false)
           switchBodyScroll();
         });
     };
     // TODO
     onMounted(() => {
-      // originContentLine.value = countOriginContent(eventData.value.content);
-      console.log('review');
-      // bus.$on('showReview', (data) => {
-      //   eventData.value = data;
-      //   originContentLine.value = countOriginContent(data.content);
-      //   bodyScrollDefaultValue.value = switchBodyScroll();
-      // });
+      originContentLine.value = countOriginContent(eventData.value.content);
+
+      console.log('挂载 storeData=>', storeData)
     });
     return (): VNode => h('div', {
       directives: [{ name: 'if', value: eventData.value.status }],
@@ -149,7 +141,6 @@ export default defineComponent({
               'and',
               h('a', { href: 'https://github.com/veaba/veaba-bot/', target: '_blank' }, 'vuepress-plugin-editable'), 'veaba-bot'
             ]),
-            // TODO 重构
             h('pre', { class: 'editable-new-content', contenteditable: true, onInput: onChange }, eventData.value.content),
             h('div', { class: 'editable-review-btn', }, [
               h('button', {

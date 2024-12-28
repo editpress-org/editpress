@@ -9,7 +9,7 @@
       "!{projectRoot}/**/*.{md,mdx}",
       "{projectRoot}/tsconfig.json",
       "{projectRoot}/package.json",
-      "{projectRoot}/rslib.config.*"
+      "{projectRoot}/tsup.config.*"
     ]
   },
   "targetDefaults": {

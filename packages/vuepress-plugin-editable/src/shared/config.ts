@@ -1,18 +1,15 @@
-const _appDomain = 'http://127.0.0.1:9091';
-// const _appDomain = 'https://bot.veaba.me';
-
 export const configAPI = {
-	_appDomain,
-  _clientId: 'Iv1.f8c5b24e304d03c9',
-  _redirectAPI: '/api/github/auth/user',
-  _updateAPI: '/api/github/content/update',
-  _getContentAPI: '/api/github/content/get',
-  _githubOAuthUrl: 'https://github.com/login/oauth/authorize',
+  appDomain: 'http://127.0.0.1:9091', // https://bot.veaba.me
+  clientId: 'Iv1.f8c5b24e304d03c9',
+  redirectAPI: '/api/github/auth/user',
+  updateAPI: '/api/github/content/update',
+  getContentAPI: '/api/github/content/get',
+  githubOAuthUrl: 'https://github.com/login/oauth/authorize',
 };
 
 export const fetchOps: Record<string, string> = {
-	mode: "cors",
-	cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-	redirect: "follow", // manual, *follow, error
-	referrer: "no-referrer", // *client, no-referrer
+  mode: "cors",
+  cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+  redirect: "follow", // manual, *follow, error
+  referrer: "no-referrer", // *client, no-referrer
 };

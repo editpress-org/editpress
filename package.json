@@ -26,9 +26,10 @@
     "@rsbuild/core": "1.1.12",
     "@rsbuild/plugin-node-polyfill": "1.2.0",
     "@rsbuild/plugin-vue": "^1.0.5",
-    "@rslib/core": "^0.1.5",
     "@vitest/ui": "^2.1.8",
-    "rspress": "^1.38.0"
+    "fast-glob": "^3.3.2",
+    "rspress": "^1.38.0",
+    "tsup": "^8.3.5"
   },
   "dependencies": {
     "@shikijs/markdown-it": "^1.24.2",
