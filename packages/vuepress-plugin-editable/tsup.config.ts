@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 import glob from 'fast-glob';
 
-const entries = glob.sync(['src/**/*.ts', '!**/*.d.ts']);
+const entries = glob.sync(['src/**/*.{ts,css}', '!**/*.d.ts']);
 
 export default defineConfig([
   {

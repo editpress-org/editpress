@@ -11,10 +11,9 @@
   "type": "module",
   "scripts": {
     "dev": "tsup --watch",
-    "build": "tsup --watch",
+    "build": "tsup",
     "test:ui": "vitest --ui",
-    "test": "vitest",
-    "tsup": "tsup --watch"
+    "test": "vitest"
   },
   "homepage": "https://github.com/editpress-org/editpress",
   "bugs": {
