@@ -3,7 +3,8 @@
  * event bus
  *
  */
-import { reactive } from "vue";
+import { useRoute } from 'vuepress/client';
+import { reactive, onMounted } from "vue";
 
 interface PreviewData {
   content: string,
@@ -26,9 +27,11 @@ interface StoreData {
   poptipData: PoptipData,
   closeStatus: boolean,
   status: boolean
+  isAuth: boolean
 }
 
 export function useStore() {
+  const router = useRoute()
 
   const storeData = reactive<StoreData>({
     showLoading: false,
@@ -46,7 +49,18 @@ export function useStore() {
       message: ''
     },
     closeStatus: false,
-    status: false
+    status: false,
+    /**
+     * check auth status
+    */
+    isAuth: false,
+  })
+
+  onMounted(() => {
+    const accessToken = router.query.accessToken;
+    
+    const Auth = !!(accessToken && accessToken.length === 40);
+    setAuth(Auth)
   })
 
   const setReviewData = (json) => {
@@ -68,11 +82,16 @@ export function useStore() {
     storeData.status = status;
   }
 
+  const setAuth = (status: boolean) => {
+    storeData.isAuth = status;
+  }
+
   const actions = {
     setReviewData,
     setLoading,
     setClose,
-    setPoptipData
+    setPoptipData,
+    setAuth
   }
   return {
     storeData,

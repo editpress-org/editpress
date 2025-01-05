@@ -2,11 +2,12 @@
 // import bus from '../node/eventBus';
 import { useThemeData } from '@vuepress/plugin-theme-data/client';
 import type { ThemeData } from '@vuepress/plugin-theme-data/client';
-import { onUnmounted, h, render, ref, onMounted, defineEmits, createApp } from 'vue'
-import { fetchOps } from '../shared/config.js';
+import type { BtnWords, ExtendPages, GetOriginContent, PostSingleData } from '../typings';
+import { onUnmounted, h, render, ref, onMounted, cloneVNode, createApp } from 'vue'
+import { fetchOps } from '../shared/config';
 import { usePageData, useRoute } from 'vuepress/client';
 import { useStore } from './useStore'
-import type { BtnWords, ExtendPages, GetOriginContent, PostSingleData } from '../typings.js';
+import { offSvgCode, onSvgCode } from '../shared/assets';
 
 
 // TODO
@@ -29,66 +30,50 @@ export default function setup() {
       targetNode.addEventListener('click', outsideClick);
     }
     saveAccessToken();
-    const vpNode = document.querySelector('.vp-page')
-    if (vpNode) {
-      editpressSign()
-      vpNode.addEventListener('click', onMountedVPPage);
-    }
-  })
-  onUnmounted(() => {
-    const vpNode = document.querySelector('.vp-page')
-    if (vpNode) {
-      vpNode.removeEventListener('click', onMountedVPPage);
-    }
   })
 
-  // mounted vp-page
-  const onMountedVPPage = () => {
-    console.log('click vp page')
+  /**
+   * 唤起 markdown-it 编辑器
+  */
+  const onCallMarkdownEditor = (event: Event) => {
   }
-
-  // add editpress sign
-  const editpressSign = () => {
-
-  }
-
 
   const dblClick = (event: Event) => {
     const { target } = event
     console.log('双击')
-    if (!(target instanceof Element)) return;
-    const currentLine = target.getAttribute('data-editable-line');
-    if (currentLine || currentLine != null) {
-      let oAuth = 'Github OAuth';
-      target.classList.add('focus-editable');
-      if (!isOAuthStatus()) {
-        createMenu(event, { oAuth });
-      }
-      if (isPlainText(target)) {
-        target.classList.remove('no-edit');
-        if (isOAuthStatus()) {
-          createMenu(event, {
-            apply: '应用',
-            restore: '还原',
-          });
-          target.setAttribute('contenteditable', 'true');
-          listenerInput(event);
-        }
-      } else {
-        target.classList.add('no-edit');
-        if (isOAuthStatus()) {
-          createMenu(event, {
-            update: '修改',
-            restore: '还原',
-          });
-        }
-      }
+    // if (!(target instanceof Element)) return;
+    // const currentLine = target.getAttribute('data-editable-line');
+    // if (currentLine || currentLine != null) {
+    //   let oAuth = 'Github OAuth';
+    //   target.classList.add('focus-editable');
+    //   if (!isOAuthStatus()) {
+    //     createMenu(event, { oAuth });
+    //   }
+    //   if (isPlainText(target)) {
+    //     target.classList.remove('no-edit');
+    //     if (isOAuthStatus()) {
+    //       createMenu(event, {
+    //         apply: '应用',
+    //         restore: '还原',
+    //       });
+    //       target.setAttribute('contenteditable', 'true');
+    //       listenerInput(event);
+    //     }
+    //   } else {
+    //     target.classList.add('no-edit');
+    //     if (isOAuthStatus()) {
+    //       createMenu(event, {
+    //         update: '修改',
+    //         restore: '还原',
+    //       });
+    //     }
+    //   }
 
-      preLine.value = Number(currentLine)
-      preNode.value = event.target;
-      // temp handler 实际上这种处理方式欠妥
-      preNodeContent.value = target.innerHTML.replace(/<strong(.+?)strong>/g, '');
-    }
+    //   preLine.value = Number(currentLine)
+    //   preNode.value = event.target;
+    //   // temp handler 实际上这种处理方式欠妥
+    //   preNodeContent.value = target.innerHTML.replace(/<strong(.+?)strong>/g, '');
+    // }
   };
 
   const saveAccessToken = () => {
@@ -102,73 +87,20 @@ export default function setup() {
    * click outside
    */
   const outsideClick = (event: Event) => {
-    const { target } = event
-    if (!(target instanceof Element)) return;
-    const clickLine = target.getAttribute('data-editable-line');
-    if (preLine.value && Number(clickLine) !== preLine.value && !target.classList.contains('no-need-close')) {
-      if (preNode.value) {
-        const editableElement = preNode.value as HTMLElement; // 类型断言
-        editableElement.removeAttribute('contenteditable');
-        editableElement.classList.remove('focus-editable');
-        editableElement.classList.remove('no-edit');
-      }
-      removeMenu();
-    }
-    bindMenuEvent(event);
+    // const { target } = event
+    // if (!(target instanceof Element)) return;
+    // const clickLine = target.getAttribute('data-editable-line');
+    // if (preLine.value && Number(clickLine) !== preLine.value && !target.classList.contains('no-need-close')) {
+    //   if (preNode.value) {
+    //     const editableElement = preNode.value as HTMLElement; // 类型断言
+    //     editableElement.removeAttribute('contenteditable');
+    //     editableElement.classList.remove('focus-editable');
+    //     editableElement.classList.remove('no-edit');
+    //   }
+    //   removeMenu();
+    // }
+    // bindMenuEvent(event);
   }
-  /**
-   * apply menu
-   * restore menu
-   * @param event
-   * @param btnWords { Object}
-   * {apply: "应用",
-   *   restore: "还原", // redirect update
-   *   update: "修改" // call console ui
-   * }
-  */
-  const createMenu = (event: Event, btnWords: BtnWords) => {
-    removeMenu();
-    const { target } = event
-    if (!(target instanceof Element)) {
-      return
-    };
-
-    const editableData: ExtendPages = pageData.value?.editableData
-
-    // Vue h 函数方式创建
-    const vNode = h('strong', {
-      class: ['editable-menu', 'no-need-close'],
-      contenteditable: false,
-    }, [
-      Object.entries(btnWords).map(([key, value]) => {
-        if (key !== 'oAuth') {
-          return h('span', {
-            class: ['no-need-close', 'editable-' + key],
-            contenteditable: false
-          }, value as string)
-        }
-        const { githubOAuthUrl, clientId, redirectAPI } = editableData || {};
-        const href = `${githubOAuthUrl}?client_id=${clientId}&redirect_uri=${redirectAPI}?reference=${window.location.href}`;
-
-        return h('a', {
-          class: ['no-need-close', `editable-${key}`],
-          contenteditable: false,
-          href
-        }, value as string);
-      })
-    ])
-
-    const isVNode = (target as any)._vnode?.__v_isVNode;
-    render(isVNode ? null : vNode, target)
-  }
-  /**
-   * remove menu
-   */
-  const removeMenu = () => {
-    const editMenu = document.querySelector('.editable-menu');
-    editMenu && editMenu.remove();
-  }
-
   const bindMenuEvent = (event: Event) => {
     const target = event.target;
     if (!(target instanceof Element)) return;

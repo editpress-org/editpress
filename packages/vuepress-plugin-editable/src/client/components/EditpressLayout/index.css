@@ -1,0 +1,10 @@
+.editpress-auth-decoration {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.p4 {
+  padding-left: 4px;
+  /** TODO 跟随主题颜色？*/
+  color: #299764;
+}

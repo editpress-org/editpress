@@ -1,8 +1,8 @@
 import { h, ref, onMounted, defineComponent, computed } from 'vue';
 import type { VNode } from 'vue'
 import { useStore } from '../../useStore';
+import './index.css'
 
-import './index.module.css'
 // 定义处理消息的方法
 const subMessage = (str: string) => {
   return (str || '').replace(/^.*: /g, '');
@@ -55,6 +55,7 @@ export default defineComponent({
     }
     return (): VNode => h('div', {
       class: 'editable-poptip',
+      // TODO bug
       directives: [{ name: 'if', value: status.value }],
       style: { borderColor: borderColor.value }
     }, [
@@ -65,6 +66,7 @@ export default defineComponent({
 
       // div4
       h('div', {
+         // TODO bug
         directives: [{ name: 'if', value: !res.value.success && res?.value.not_found_repo_link }],
       }, [
         'See:',

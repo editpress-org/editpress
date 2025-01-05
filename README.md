@@ -19,7 +19,15 @@ Simplified online editing solution for technical documentation with support for 
 | vitepress  | TODO                   |             |                                      |
 | rspress    | TODO                   |             |                                      |
 
----
+### 🚧 Wish list（申请免费使用）
+
+> A limited list of trials is open.
+
+- [ ] apply here 【TODO，未准备好】
+
+| frameworks   | domain            | repo                           | contacts |
+| ------------ | ----------------- | ------------------------------ | -------- |
+| vuepress 1.x | editable.veaba.me | veaba/vuepress-plugin-editable | @veaba   |
 
 ## dev
 
@@ -59,7 +67,6 @@ pnpm run docs:dev
 | rspress-docs   | http://localhost:8081 |
 | vitepress-docs | http://localhost:8082 |
 | vuepress-docs  | http://localhost:8083 |
-
 
 ```diff
 

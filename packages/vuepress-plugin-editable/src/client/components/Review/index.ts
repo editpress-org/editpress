@@ -4,7 +4,7 @@ import { fetchOps } from '../../../shared/config';
 import { usePageData } from 'vuepress/client';
 import Position from '../Position'
 import { useStore } from '../../useStore'
-import './index.module.css'
+import './index.css'
 
 export default defineComponent({
   name: 'Review',

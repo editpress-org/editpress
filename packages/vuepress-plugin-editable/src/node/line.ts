@@ -1,6 +1,4 @@
 // markdown plugin
-// import type { Markdown } from 'vuepress/markdown';
-
 function setLine({ tokens = [] }) {
   for (let i = 0; i < tokens.length; i++) {
     const item: any = tokens[i];

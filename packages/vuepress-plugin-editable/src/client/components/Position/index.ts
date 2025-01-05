@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 import type { VNode } from 'vue'
-import './index.module.css'
+import './index.css'
 
 export default defineComponent({
   name: 'Position',
