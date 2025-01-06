@@ -1,5 +1,6 @@
+import type { Markdown } from 'vuepress/markdown';
 // markdown plugin
-function setLine({ tokens = [] }) {
+function setLine({ tokens }) {
   for (let i = 0; i < tokens.length; i++) {
     const item: any = tokens[i];
     if (item.nesting !== -1 && item.block === true) {
@@ -8,6 +9,6 @@ function setLine({ tokens = [] }) {
   }
 }
 
-export const generateLine = (md: any) => {
+export const generateLine = (md: Markdown) => {
   md.core.ruler.before('linkify', 'editable', setLine);
 };

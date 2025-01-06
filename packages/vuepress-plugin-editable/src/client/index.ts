@@ -7,12 +7,12 @@ import setup from './setup';
 
 export default defineClientConfig({
   enhance({ app }) {
+    // 提供给 vuepress docs 层使用
     app.component('EditableReview', EditableReview);
     app.component('EditableLoading', EditableLoading);
     app.component('EditablePoptip', EditablePoptip);
   },
   setup,
-  // layout frontmatter 使用
   layouts: {
     EditpressLayout
   },

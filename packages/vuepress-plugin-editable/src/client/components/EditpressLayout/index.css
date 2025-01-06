@@ -8,3 +8,29 @@
   /** TODO 跟随主题颜色？*/
   color: #299764;
 }
+
+#editpress-page {
+  position: relative;
+}
+
+#editpress-markdown {
+  /* position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10; */
+}
+
+#editpress-markdown-content {
+  /* position: absolute;
+  left: 56%;
+  top: var(--navbar-height);
+  transform: translateX(-45%);
+  width: calc(var(--content-width) + 10px);
+  height: 90%;
+  border: 1px solid red;
+  overflow-y: auto;
+  background: #fff; */
+}

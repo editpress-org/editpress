@@ -1,21 +1,26 @@
 import { h, onMounted, computed, ref, defineComponent } from 'vue'
 import type { VNode } from 'vue'
 import { fetchOps } from '../../../shared/config';
-import { usePageData } from 'vuepress/client';
-import Position from '../Position'
 import { useStore } from '../../useStore'
+import Position from '../Position'
 import './index.css'
+
+// TODO 如何使用 markdown 编辑器，把 一个 id 进行编辑器化？？
 
 export default defineComponent({
   name: 'Review',
-  setup() {
-    const pageData = usePageData() as Record<string, any>
+  props: ['pageDataProps'],
+  setup(props, { attrs, slots, emit, expose }) {
     const { storeData, actions } = useStore()
+    const { content } = props.pageDataProps.value
+    const isShowReview = ref(true)
+
+    // console.log('Review content=>', content)
 
     // 定义响应式数据
     const eventData = ref(storeData.reviewData);
     const disabled = ref(false);
-    const originContentLine = ref(storeData.reviewData.content?.length);
+    const originContentLine = ref(content?.length);
     const otherDivLine = ref(0);
     const bodyScrollDefaultValue = ref('');
 
@@ -24,7 +29,7 @@ export default defineComponent({
 
     // 定义关闭模态框的方法
     const closeModal = () => {
-      location.reload();
+      emit('reviewClose', false)
     };
 
     // 防抖函数
@@ -82,7 +87,10 @@ export default defineComponent({
       if (!contentNode) return
       const content = (contentNode as HTMLElement)?.innerText as string;
       actions.setLoading(true)
+
+      const pageData = props.pageDataProps.value
       const { updateAPI } = pageData.editableData || {};
+
       fetch(updateAPI, {
         body: JSON.stringify({
           owner: eventData.value.owner,
@@ -116,22 +124,28 @@ export default defineComponent({
           switchBodyScroll();
         });
     };
-    // TODO
     onMounted(() => {
-      originContentLine.value = countOriginContent(eventData.value.content);
 
-      console.log('挂载 storeData=>', storeData)
+      originContentLine.value = countOriginContent(content);
+      console.log(' Review 挂载 storeData=>', storeData)
+
     });
-    return (): VNode => h('div', {
-      directives: [{ name: 'if', value: eventData.value.status }],
+
+
+    // TODO 怎么挂载到某个 id 下~
+
+    const vNode = (): VNode => h('div', {
+      id: "editpress-review",
       style: {
         'z-index': eventData.value.status ? 2 : -1,
+        background: '#fff'
       }
     }, [
       h('div', {
-        class: 'editable-review-warp'
+        class: 'editable-review-warp',
+        contenteditable: true
       }, [
-        h(Position, { props: { lines: breakLines } }),
+        h(Position, { lines: Number(breakLines) }),
         h('div', { class: 'editable-review-code' }, [
           h('div', { class: 'editable-new-code editable-review-body' }, [
 
@@ -141,7 +155,7 @@ export default defineComponent({
               'and',
               h('a', { href: 'https://github.com/veaba/veaba-bot/', target: '_blank' }, 'vuepress-plugin-editable'), 'veaba-bot'
             ]),
-            h('pre', { class: 'editable-new-content', contenteditable: true, onInput: onChange }, eventData.value.content),
+            h('pre', { class: 'editable-new-content', contenteditable: true, onInput: onChange }, content),
             h('div', { class: 'editable-review-btn', }, [
               h('button', {
                 disabled: disabled.value,
@@ -155,5 +169,12 @@ export default defineComponent({
         ])
       ])
     ])
+
+    console.log('isShowReview=>', isShowReview.value)
+
+    if (!isShowReview.value) return h('div',)
+
+
+    return vNode
   }
 })

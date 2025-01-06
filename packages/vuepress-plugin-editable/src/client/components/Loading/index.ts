@@ -6,8 +6,8 @@ export default defineComponent({
   name: 'Loading',
   setup() {
     const loading = ref(false);
-     // TODO bug
-    return (): VNode => h('div', { class: 'editable-loading', directives: [{ name: 'if', value: loading.value }] }, [
+    if (!loading.value) return null
+    return (): VNode => h('div', { class: 'editable-loading' }, [
       h('div', { class: 'editable-storm-loading' }, 'Loading...')
     ])
   }

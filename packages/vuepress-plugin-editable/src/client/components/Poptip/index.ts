@@ -53,25 +53,26 @@ export default defineComponent({
         h('a', { href: res.value.data && res.value.data.html_url, target: '_blank' }, 'Pull Request')
       ]);
     }
+    if (!status.value) return null
+
+    const isSuccess = !res.value.success && res?.value.not_found_repo_link
+
+    let successNode: VNode | null = h('div', {
+      directives: [{ name: 'if', value: !res.value.success && res?.value.not_found_repo_link }],
+    }, [
+      'See:',
+      h('a', { href: res.value.data && res.value.not_found_repo_link, target: '_blank' }, res.value.data?.repo)
+    ])
+    if (!isSuccess) {
+      successNode = null
+    }
     return (): VNode => h('div', {
       class: 'editable-poptip',
-      // TODO bug
-      directives: [{ name: 'if', value: status.value }],
       style: { borderColor: borderColor.value }
     }, [
-      // div 1
       h('div', firstDivContent),
-
       secondDivContent,
-
-      // div4
-      h('div', {
-         // TODO bug
-        directives: [{ name: 'if', value: !res.value.success && res?.value.not_found_repo_link }],
-      }, [
-        'See:',
-        h('a', { href: res.value.data && res.value.not_found_repo_link, target: '_blank' }, res.value.data?.repo)
-      ])
+      successNode
     ]);
   },
 });

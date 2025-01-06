@@ -1,14 +1,15 @@
-// import './style.css';
-// import bus from '../node/eventBus';
+/**
+ * Client setup
+*/
 import { useThemeData } from '@vuepress/plugin-theme-data/client';
 import type { ThemeData } from '@vuepress/plugin-theme-data/client';
 import type { BtnWords, ExtendPages, GetOriginContent, PostSingleData } from '../typings';
-import { onUnmounted, h, render, ref, onMounted, cloneVNode, createApp } from 'vue'
+import { onUnmounted, h, render, ref, onMounted, cloneVNode, createApp, provide } from 'vue'
 import { fetchOps } from '../shared/config';
 import { usePageData, useRoute } from 'vuepress/client';
 import { useStore } from './useStore'
-import { offSvgCode, onSvgCode } from '../shared/assets';
-
+import Review from './components/Review';
+import { normalizeNodeInner, reloadPage } from '../shared/tools';
 
 // TODO
 export default function setup() {
@@ -19,10 +20,16 @@ export default function setup() {
   const preNode = ref<EventTarget | null>(null)
   const preNodeContent = ref({})
   const isPlainTextStatus = ref(false)
+
+  const isShowReview = ref(false)
+
+
+  // TODO  这个其实可以优化的
   const themeData = useThemeData() as ThemeData as unknown as { repo?: string };
 
   onMounted(() => {
     const targetNode = document.querySelector('body');
+
     if (targetNode) {
       targetNode.removeEventListener('dblclick', dblClick);
       targetNode.addEventListener('dblclick', dblClick);
@@ -38,9 +45,53 @@ export default function setup() {
   const onCallMarkdownEditor = (event: Event) => {
   }
 
-  const dblClick = (event: Event) => {
-    const { target } = event
+
+  /**
+   * review component handler
+   * and destroyed the review component
+  */
+  const onReviewClose = (closeStatus: boolean) => {
+    console.log('来着 review 组件，要求关闭=>', closeStatus)
+    isShowReview.value = closeStatus
+
+    const dom = document.getElementById('editpress-markdown-content')
+    if (!(dom instanceof Element)) {
+      return
+    };
+    render(null, dom)
+  }
+
+  const dblClick = () => {
     console.log('双击')
+
+    if (isShowReview.value) {
+      return
+    }
+
+    const editpressMarkdownNode = document.getElementById('editpress-markdown')
+    const editpressMounterNode = document.getElementById('editpress-markdown-content')
+
+    if (!(editpressMarkdownNode instanceof Element)) {
+      return
+    };
+    if (!(editpressMounterNode instanceof Element)) {
+      return
+    };
+
+    // isShowReview
+    editpressMarkdownNode.style.display = 'block'
+
+
+    const vNode = h(Review, {
+      pageDataProps: pageData,
+      onReviewClose
+    })
+    const isVNode = (editpressMounterNode as any)._vnode?.__v_isVNode;
+
+    isShowReview.value = true;
+    console.log('isVNode=>', isVNode)
+    render(vNode, editpressMounterNode)
+    // render(isVNode ? null : vNode, editpressMounterNode)
     // if (!(target instanceof Element)) return;
     // const currentLine = target.getAttribute('data-editable-line');
     // if (currentLine || currentLine != null) {
@@ -113,18 +164,9 @@ export default function setup() {
   }
 
   /**
-   *
-   * Compatible Chrome + Firefox for Node.innerText
-   */
-
-  const normalizeNodeInner = (text: string) => {
-    return text.replace(/\s+/g, ' ').trim();
-  }
-  /**
    * @param event
    * */
   const updatePR = () => {
-    // const repoPrefix = themeData?.value.repo || '';
     const repoPrefix = themeData.repo || '';
     if (!repoPrefix || !repoPrefix.length) {
       console.warn('Warning: You have not set the repo url');
@@ -195,25 +237,8 @@ export default function setup() {
       repo: strArr[1] ? strArr[1] : '',
     };
   }
-  const reloadPage = () => {
-    location.reload();
-  }
 
-  /**
-   * is plain text，create children no is a async function.
-   * @return {boolean}
-   * thi
-   */
-  const isPlainText = (node: EventTarget): boolean => {
-    if (!(node instanceof Element)) return false;
-    if (!node?.children?.length || (node.children.length && node.children[0].classList.contains('editable-menu'))) {
-      isPlainTextStatus.value = true;
-      return true;
-    } else {
-      isPlainTextStatus.value = false;
-      return false;
-    }
-  }
+
 
   /**
    * listener contenteditable input
@@ -291,5 +316,9 @@ export default function setup() {
     focusNode?.removeAttribute('contenteditable');
     const editableElement = preNode.value as HTMLElement; // 类型断言
     editableElement?.classList?.remove('focus-editable');
+  }
+
+  return () => {
+    h('div', 'xx')
   }
 };

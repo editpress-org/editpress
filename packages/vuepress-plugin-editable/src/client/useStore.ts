@@ -3,8 +3,8 @@
  * event bus
  *
  */
-import { useRoute } from 'vuepress/client';
-import { reactive, onMounted } from "vue";
+import { usePageData, useRoute } from 'vuepress/client';
+import { reactive, onMounted, computed, toRaw, toRef, ref } from "vue";
 
 interface PreviewData {
   content: string,
@@ -31,13 +31,11 @@ interface StoreData {
 }
 
 export function useStore() {
-  const router = useRoute()
 
   const storeData = reactive<StoreData>({
     showLoading: false,
-
     reviewData: {
-      content: '',
+      content: '', // TODO
       status: false,
       owner: '',
       repo: '',
@@ -57,8 +55,8 @@ export function useStore() {
   })
 
   onMounted(() => {
-    const accessToken = router.query.accessToken;
-    
+    const router = useRoute()
+    const accessToken = router?.query?.accessToken;
     const Auth = !!(accessToken && accessToken.length === 40);
     setAuth(Auth)
   })
@@ -93,6 +91,7 @@ export function useStore() {
     setPoptipData,
     setAuth
   }
+
   return {
     storeData,
     actions

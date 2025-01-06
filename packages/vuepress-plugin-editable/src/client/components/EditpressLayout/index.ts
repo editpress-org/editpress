@@ -1,7 +1,8 @@
 
 import ParentLayout from '@vuepress/theme-default/layouts/Layout.vue'
+import VPPage from '@vuepress/theme-default/components/VPPage.vue'
 import { h, defineComponent, computed, reactive, ref, watch } from "vue";
-import { usePageData } from 'vuepress/client';
+import { usePageData, useClientData, usePageFrontmatter } from 'vuepress/client';
 import { offSvgCode, onSvgCode } from '../../../shared/assets';
 import { useStore } from "../../useStore";
 import type { ExtendPages } from '../../../typings';
@@ -14,6 +15,7 @@ export default defineComponent({
     const pageData = usePageData() as Record<string, any>
     const { storeData } = useStore()
     const editableData: ExtendPages = pageData.value?.editableData
+
     const { githubOAuthUrl, clientId, redirectAPI } = editableData || {};
     const href = `${githubOAuthUrl}?client_id=${clientId}&redirect_uri=${redirectAPI}?reference=${window.location.href}`;
 
@@ -66,6 +68,10 @@ export default defineComponent({
 
       return h(ParentLayout, {}, {
         'page-content-top': () => h('div', { class: 'editpress-auth-decoration', id: "editpress-page" }, [
+          // markdown editable node
+          h('div', { id: "editpress-markdown" }, [
+            h('div', { id: "editpress-markdown-content", })
+          ]),
           renderVNode,
         ]
         )
