@@ -3,6 +3,9 @@ import type { VNode } from 'vue'
 import { fetchOps } from '../../../shared/config';
 import { useStore } from '../../useStore'
 import Position from '../Position'
+import { basicSetup, EditorView } from "codemirror"
+import { markdown } from "@codemirror/lang-markdown"
+
 import './index.css'
 
 // TODO 如何使用 markdown 编辑器，把 一个 id 进行编辑器化？？
@@ -124,11 +127,24 @@ export default defineComponent({
           switchBodyScroll();
         });
     };
-    onMounted(() => {
 
+    const onMountedMarkdown = (text: string) => {
+      const markdownNode = document.querySelector('#editpress-markdown')
+      if (!markdownNode) return
+
+      new EditorView({
+        doc: text,
+        extensions: [basicSetup, markdown()],
+        parent: markdownNode
+      })
+
+    }
+    onMounted(() => {
       originContentLine.value = countOriginContent(content);
       console.log(' Review 挂载 storeData=>', storeData)
 
+      // mounted markdown
+      onMountedMarkdown(content)
     });
 
 
@@ -143,7 +159,6 @@ export default defineComponent({
     }, [
       h('div', {
         class: 'editable-review-warp',
-        contenteditable: true
       }, [
         h(Position, { lines: Number(breakLines) }),
         h('div', { class: 'editable-review-code' }, [
@@ -155,7 +170,8 @@ export default defineComponent({
               'and',
               h('a', { href: 'https://github.com/veaba/veaba-bot/', target: '_blank' }, 'vuepress-plugin-editable'), 'veaba-bot'
             ]),
-            h('pre', { class: 'editable-new-content', contenteditable: true, onInput: onChange }, content),
+            h('div', { id: 'editpress-markdown' }),
+            // h('pre', { class: 'editable-new-content', contenteditable: true, onInput: onChange }, content),
             h('div', { class: 'editable-review-btn', }, [
               h('button', {
                 disabled: disabled.value,

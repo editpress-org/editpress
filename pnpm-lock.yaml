@@ -15,6 +15,9 @@ importers:
         specifier: ^14.1.0
         version: 14.1.0
     devDependencies:
+      '@codemirror/lang-markdown':
+        specifier: ^6.3.2
+        version: 6.3.2
       '@rsbuild/core':
         specifier: 1.1.12
         version: 1.1.12
@@ -23,16 +26,19 @@ importers:
         version: 1.2.0(@rsbuild/core@1.1.12)
       '@rsbuild/plugin-vue':
         specifier: ^1.0.5
-        version: 1.0.5(@rsbuild/core@1.1.12)
+        version: 1.0.5(@rsbuild/core@1.1.12)(esbuild@0.24.2)
       '@vitest/ui':
         specifier: ^2.1.8
         version: 2.1.8(vitest@2.1.8)
+      codemirror:
+        specifier: ^6.0.1
+        version: 6.0.1
       fast-glob:
         specifier: ^3.3.2
         version: 3.3.2
       rspress:
         specifier: ^1.38.0
-        version: 1.38.0(webpack@5.97.1)
+        version: 1.38.0(webpack@5.97.1(esbuild@0.24.2))
       tsup:
         specifier: ^8.3.5
         version: 8.3.5(postcss@8.4.49)(typescript@5.7.2)(yaml@2.6.1)
@@ -41,7 +47,7 @@ importers:
     dependencies:
       rspress:
         specifier: ^1.37.4
-        version: 1.38.0(webpack@5.97.1)
+        version: 1.38.0(webpack@5.97.1(esbuild@0.24.2))
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.9.3
@@ -63,7 +69,7 @@ importers:
     devDependencies:
       vuepress:
         specifier: ^1.8.2
-        version: 1.9.10(@vue/compiler-sfc@3.5.13)(hogan.js@3.0.2)(lodash@4.17.21)
+        version: 1.9.10(@vue/compiler-sfc@3.5.13)(hogan.js@3.0.2)(lodash@4.17.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   packages/vuepress-plugin-editable:
     devDependencies:
@@ -105,7 +111,7 @@ importers:
     dependencies:
       rspress:
         specifier: ^1.37.4
-        version: 1.38.0(webpack@5.97.1)
+        version: 1.38.0(webpack@5.97.1(esbuild@0.24.2))
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.9.3
@@ -808,6 +814,39 @@ packages:
   '@bufbuild/protobuf@2.2.3':
     resolution: {integrity: sha512-tFQoXHJdkEOSwj5tRIZSPNUuXK3RaR7T1nUrPgbYX1pUbvqqaaZAsfo+NXBPsz5rZMSKVFrgK1WL8Q/MSLvprg==}
 
+  '@codemirror/autocomplete@6.18.4':
+    resolution: {integrity: sha512-sFAphGQIqyQZfP2ZBsSHV7xQvo9Py0rV0dW7W3IMRdS+zDuNb2l3no78CvUaWKGfzFjI4FTrLdUSj86IGb2hRA==}
+
+  '@codemirror/commands@6.8.0':
+    resolution: {integrity: sha512-q8VPEFaEP4ikSlt6ZxjB3zW72+7osfAYW9i8Zu943uqbKuz6utc1+F170hyLUCUltXORjQXRyYQNfkckzA/bPQ==}
+
+  '@codemirror/lang-css@6.3.1':
+    resolution: {integrity: sha512-kr5fwBGiGtmz6l0LSJIbno9QrifNMUusivHbnA1H6Dmqy4HZFte3UAICix1VuKo0lMPKQr2rqB+0BkKi/S3Ejg==}
+
+  '@codemirror/lang-html@6.4.9':
+    resolution: {integrity: sha512-aQv37pIMSlueybId/2PVSP6NPnmurFDVmZwzc7jszd2KAF8qd4VBbvNYPXWQq90WIARjsdVkPbw29pszmHws3Q==}
+
+  '@codemirror/lang-javascript@6.2.2':
+    resolution: {integrity: sha512-VGQfY+FCc285AhWuwjYxQyUQcYurWlxdKYT4bqwr3Twnd5wP5WSeu52t4tvvuWmljT4EmgEgZCqSieokhtY8hg==}
+
+  '@codemirror/lang-markdown@6.3.2':
+    resolution: {integrity: sha512-c/5MYinGbFxYl4itE9q/rgN/sMTjOr8XL5OWnC+EaRMLfCbVUmmubTJfdgpfcSS2SCaT7b+Q+xi3l6CgoE+BsA==}
+
+  '@codemirror/language@6.10.8':
+    resolution: {integrity: sha512-wcP8XPPhDH2vTqf181U8MbZnW+tDyPYy0UzVOa+oHORjyT+mhhom9vBd7dApJwoDz9Nb/a8kHjJIsuA/t8vNFw==}
+
+  '@codemirror/lint@6.8.4':
+    resolution: {integrity: sha512-u4q7PnZlJUojeRe8FJa/njJcMctISGgPQ4PnWsd9268R4ZTtU+tfFYmwkBvgcrK2+QQ8tYFVALVb5fVJykKc5A==}
+
+  '@codemirror/search@6.5.8':
+    resolution: {integrity: sha512-PoWtZvo7c1XFeZWmmyaOp2G0XVbOnm+fJzvghqGAktBW3cufwJUWvSCcNG0ppXiBEM05mZu6RhMtXPv2hpllig==}
+
+  '@codemirror/state@6.5.1':
+    resolution: {integrity: sha512-3rA9lcwciEB47ZevqvD8qgbzhM9qMb8vCcQCNmDfVRPQG4JT9mSb0Jg8H7YjKGGQcFnLN323fj9jdnG59Kx6bg==}
+
+  '@codemirror/view@6.36.2':
+    resolution: {integrity: sha512-DZ6ONbs8qdJK0fdN7AB82CgI6tYXf4HWk1wSVa0+9bhVznCuuvhQtX8bFBoy3dv8rZSQqUd8GvhVAcielcidrA==}
+
   '@docsearch/css@3.8.2':
     resolution: {integrity: sha512-y05ayQFyUmCXze79+56v/4HpycYF3uFqB78pLPrSV5ZKAlDuIAAJNhaRi8tTdRNXh05yxX/TyNnzD6LwSM89vQ==}
 
@@ -1149,6 +1188,30 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@lezer/common@1.2.3':
+    resolution: {integrity: sha512-w7ojc8ejBqr2REPsWxJjrMFsA/ysDCFICn8zEOR9mrqzOu2amhITYuLD8ag6XZf0CFXDrhKqw7+tW8cX66NaDA==}
+
+  '@lezer/css@1.1.9':
+    resolution: {integrity: sha512-TYwgljcDv+YrV0MZFFvYFQHCfGgbPMR6nuqLabBdmZoFH3EP1gvw8t0vae326Ne3PszQkbXfVBjCnf3ZVCr0bA==}
+
+  '@lezer/highlight@1.2.1':
+    resolution: {integrity: sha512-Z5duk4RN/3zuVO7Jq0pGLJ3qynpxUVsh7IbUbGj88+uV2ApSAn6kWg2au3iJb+0Zi7kKtqffIESgNcRXWZWmSA==}
+
+  '@lezer/html@1.3.10':
+    resolution: {integrity: sha512-dqpT8nISx/p9Do3AchvYGV3qYc4/rKr3IBZxlHmpIKam56P47RSHkSF5f13Vu9hebS1jM0HmtJIwLbWz1VIY6w==}
+
+  '@lezer/javascript@1.4.21':
+    resolution: {integrity: sha512-lL+1fcuxWYPURMM/oFZLEDm0XuLN128QPV+VuGtKpeaOGdcl9F2LYC3nh1S9LkPqx9M0mndZFdXCipNAZpzIkQ==}
+
+  '@lezer/lr@1.4.2':
+    resolution: {integrity: sha512-pu0K1jCIdnQ12aWNaAVU5bzi7Bd1w54J3ECgANPmYLtQKP0HBj2cE/5coBD66MT10xbtIuUr7tg0Shbsvk0mDA==}
+
+  '@lezer/markdown@1.4.0':
+    resolution: {integrity: sha512-mk4MYeq6ZQdxgsgRAe0G7kqPRV6Desajfa14TcHoGGXIqqj1/2ARN31VFpmrXDgvXiGBWpA7RXtv0he+UdTkGw==}
+
+  '@marijn/find-cluster-break@1.0.2':
+    resolution: {integrity: sha512-l0h88YhZFyKdXIFNfSWpyjStDjGHwZ/U7iobcK1cQQD8sejsONdQtTVU+1wVN1PBw40PiiHB1vA5S7VTfQiP9g==}
 
   '@mdit-vue/plugin-component@1.0.0':
     resolution: {integrity: sha512-ZXsJwxkG5yyTHARIYbR74cT4AZ0SfMokFFjiHYCbypHIeYWgJhso4+CZ8+3V9EWFG3EHlGoKNGqKp9chHnqntQ==}
@@ -2981,6 +3044,9 @@ packages:
     resolution: {integrity: sha512-q5/jG+YQnSy4nRTV4F7lPepBJZ8qBNJJDBuJdoejDyLXgmL7IEo+Le2JDZudFTFt7mrCqIRaSjws4ygRCTCAXA==}
     engines: {node: '>= 4.0'}
 
+  codemirror@6.0.1:
+    resolution: {integrity: sha512-J8j+nZ+CdWmIeFIGXEFbFPtpiYacFMDR8GlHK3IyHQJMCaVRfGx9NT+Hxivv1ckLWPvNdZqndbr/7lVhrf/Svg==}
+
   collection-visit@1.0.0:
     resolution: {integrity: sha512-lNkKvzEeMBBjUGHZ+q6z9pSJla0KWAQPvtzhEV9+iGyQYG+pBpl7xKDhxoNSOZH2hhv0v5k0y2yAM4o4SjoSkw==}
     engines: {node: '>=0.10.0'}
@@ -3305,6 +3371,9 @@ packages:
 
   create-hmac@1.1.7:
     resolution: {integrity: sha512-MJG9liiZ+ogc4TzUwuvbER1JRdgvUFSB5+VR/g5h82fGaIRWMWddtKBHi7/sVhfjQZ6SehlyhvQYrcYkaUIpLg==}
+
+  crelt@1.0.6:
+    resolution: {integrity: sha512-VQ2MBenTq1fWZUH9DJNGti7kKv6EeAuYr3cLwxUWhIu1baTaXh4Ib5W2CqHVqib4/MqbYGJqiL3Zb8GJZr3l4g==}
 
   cross-spawn@6.0.6:
     resolution: {integrity: sha512-VqCUuhcd1iB+dsv8gxPttb5iZh/D0iubSP21g36KXdEuf6I5JiioesUVjpCdHV9MZRUfVFlvwtIUyPfxo5trtw==}
@@ -7296,6 +7365,9 @@ packages:
     resolution: {integrity: sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==}
     engines: {node: '>=0.10.0'}
 
+  style-mod@4.1.2:
+    resolution: {integrity: sha512-wnD1HyVqpJUI2+eKZ+eo1UwghftP6yuFheBqqe+bWCotBjC2K1YnteJILRMs3SM4V/0dLEW1SC27MWP5y+mwmw==}
+
   style-to-object@0.4.4:
     resolution: {integrity: sha512-HYNoHZa2GorYNyqiCaBgsxvcJIn7OHq6inEga+E6Ke3m5JkoqpQbnFssk4jwe+K7AhGa2fcha4wSOf1Kn01dMg==}
 
@@ -8078,6 +8150,9 @@ packages:
         optional: true
       '@vuepress/bundler-webpack':
         optional: true
+
+  w3c-keyname@2.2.8:
+    resolution: {integrity: sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ==}
 
   watchpack-chokidar2@2.0.1:
     resolution: {integrity: sha512-nCFfBIPKr5Sh61s4LPpy1Wtfi0HE8isJ3d2Yb5/Ppw2P2B/3eVSEBjKfN0fmHJSK14+31KwMKmcrzs2GM4P0Ww==}
@@ -9149,6 +9224,91 @@ snapshots:
 
   '@bufbuild/protobuf@2.2.3': {}
 
+  '@codemirror/autocomplete@6.18.4':
+    dependencies:
+      '@codemirror/language': 6.10.8
+      '@codemirror/state': 6.5.1
+      '@codemirror/view': 6.36.2
+      '@lezer/common': 1.2.3
+
+  '@codemirror/commands@6.8.0':
+    dependencies:
+      '@codemirror/language': 6.10.8
+      '@codemirror/state': 6.5.1
+      '@codemirror/view': 6.36.2
+      '@lezer/common': 1.2.3
+
+  '@codemirror/lang-css@6.3.1':
+    dependencies:
+      '@codemirror/autocomplete': 6.18.4
+      '@codemirror/language': 6.10.8
+      '@codemirror/state': 6.5.1
+      '@lezer/common': 1.2.3
+      '@lezer/css': 1.1.9
+
+  '@codemirror/lang-html@6.4.9':
+    dependencies:
+      '@codemirror/autocomplete': 6.18.4
+      '@codemirror/lang-css': 6.3.1
+      '@codemirror/lang-javascript': 6.2.2
+      '@codemirror/language': 6.10.8
+      '@codemirror/state': 6.5.1
+      '@codemirror/view': 6.36.2
+      '@lezer/common': 1.2.3
+      '@lezer/css': 1.1.9
+      '@lezer/html': 1.3.10
+
+  '@codemirror/lang-javascript@6.2.2':
+    dependencies:
+      '@codemirror/autocomplete': 6.18.4
+      '@codemirror/language': 6.10.8
+      '@codemirror/lint': 6.8.4
+      '@codemirror/state': 6.5.1
+      '@codemirror/view': 6.36.2
+      '@lezer/common': 1.2.3
+      '@lezer/javascript': 1.4.21
+
+  '@codemirror/lang-markdown@6.3.2':
+    dependencies:
+      '@codemirror/autocomplete': 6.18.4
+      '@codemirror/lang-html': 6.4.9
+      '@codemirror/language': 6.10.8
+      '@codemirror/state': 6.5.1
+      '@codemirror/view': 6.36.2
+      '@lezer/common': 1.2.3
+      '@lezer/markdown': 1.4.0
+
+  '@codemirror/language@6.10.8':
+    dependencies:
+      '@codemirror/state': 6.5.1
+      '@codemirror/view': 6.36.2
+      '@lezer/common': 1.2.3
+      '@lezer/highlight': 1.2.1
+      '@lezer/lr': 1.4.2
+      style-mod: 4.1.2
+
+  '@codemirror/lint@6.8.4':
+    dependencies:
+      '@codemirror/state': 6.5.1
+      '@codemirror/view': 6.36.2
+      crelt: 1.0.6
+
+  '@codemirror/search@6.5.8':
+    dependencies:
+      '@codemirror/state': 6.5.1
+      '@codemirror/view': 6.36.2
+      crelt: 1.0.6
+
+  '@codemirror/state@6.5.1':
+    dependencies:
+      '@marijn/find-cluster-break': 1.0.2
+
+  '@codemirror/view@6.36.2':
+    dependencies:
+      '@codemirror/state': 6.5.1
+      style-mod: 4.1.2
+      w3c-keyname: 2.2.8
+
   '@docsearch/css@3.8.2': {}
 
   '@docsearch/js@3.8.2(@algolia/client-search@5.18.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)':
@@ -9356,6 +9516,41 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
+  '@lezer/common@1.2.3': {}
+
+  '@lezer/css@1.1.9':
+    dependencies:
+      '@lezer/common': 1.2.3
+      '@lezer/highlight': 1.2.1
+      '@lezer/lr': 1.4.2
+
+  '@lezer/highlight@1.2.1':
+    dependencies:
+      '@lezer/common': 1.2.3
+
+  '@lezer/html@1.3.10':
+    dependencies:
+      '@lezer/common': 1.2.3
+      '@lezer/highlight': 1.2.1
+      '@lezer/lr': 1.4.2
+
+  '@lezer/javascript@1.4.21':
+    dependencies:
+      '@lezer/common': 1.2.3
+      '@lezer/highlight': 1.2.1
+      '@lezer/lr': 1.4.2
+
+  '@lezer/lr@1.4.2':
+    dependencies:
+      '@lezer/common': 1.2.3
+
+  '@lezer/markdown@1.4.0':
+    dependencies:
+      '@lezer/common': 1.2.3
+      '@lezer/highlight': 1.2.1
+
+  '@marijn/find-cluster-break@1.0.2': {}
+
   '@mdit-vue/plugin-component@1.0.0':
     dependencies:
       '@types/markdown-it': 13.0.9
@@ -9500,11 +9695,11 @@ snapshots:
     optionalDependencies:
       markdown-it: 14.1.0
 
-  '@mdx-js/loader@2.3.0(webpack@5.97.1)':
+  '@mdx-js/loader@2.3.0(webpack@5.97.1(esbuild@0.24.2))':
     dependencies:
       '@mdx-js/mdx': 2.3.0
       source-map: 0.7.4
-      webpack: 5.97.1
+      webpack: 5.97.1(esbuild@0.24.2)
     transitivePeerDependencies:
       - supports-color
 
@@ -9691,11 +9886,11 @@ snapshots:
       reduce-configs: 1.1.0
       sass-embedded: 1.83.0
 
-  '@rsbuild/plugin-vue@1.0.5(@rsbuild/core@1.1.12)':
+  '@rsbuild/plugin-vue@1.0.5(@rsbuild/core@1.1.12)(esbuild@0.24.2)':
     dependencies:
       '@rsbuild/core': 1.1.12
-      vue-loader: 17.4.2(webpack@5.97.1)
-      webpack: 5.97.1
+      vue-loader: 17.4.2(webpack@5.97.1(esbuild@0.24.2))
+      webpack: 5.97.1(esbuild@0.24.2)
     transitivePeerDependencies:
       - '@swc/core'
       - '@vue/compiler-sfc'
@@ -9761,9 +9956,9 @@ snapshots:
     optionalDependencies:
       react-refresh: 0.16.0
 
-  '@rspress/core@1.38.0(webpack@5.97.1)':
+  '@rspress/core@1.38.0(webpack@5.97.1(esbuild@0.24.2))':
     dependencies:
-      '@mdx-js/loader': 2.3.0(webpack@5.97.1)
+      '@mdx-js/loader': 2.3.0(webpack@5.97.1(esbuild@0.24.2))
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0(react@18.3.1)
       '@rsbuild/core': 1.1.12
@@ -10222,6 +10417,14 @@ snapshots:
     optionalDependencies:
       vite: 5.4.11(@types/node@18.19.68)(lightningcss@1.28.2)(sass-embedded@1.83.0)(stylus@0.54.8)(terser@5.37.0)
 
+  '@vitest/mocker@2.1.8(vite@5.4.11(@types/node@22.10.0)(lightningcss@1.28.2)(sass-embedded@1.83.0)(stylus@0.54.8)(terser@5.37.0))':
+    dependencies:
+      '@vitest/spy': 2.1.8
+      estree-walker: 3.0.3
+      magic-string: 0.30.17
+    optionalDependencies:
+      vite: 5.4.11(@types/node@22.10.0)(lightningcss@1.28.2)(sass-embedded@1.83.0)(stylus@0.54.8)(terser@5.37.0)
+
   '@vitest/pretty-format@2.1.8':
     dependencies:
       tinyrainbow: 1.2.0
@@ -10250,7 +10453,7 @@ snapshots:
       sirv: 3.0.0
       tinyglobby: 0.2.10
       tinyrainbow: 1.2.0
-      vitest: 2.1.8(@types/node@18.19.68)(@vitest/ui@2.1.8)(lightningcss@1.28.2)(sass-embedded@1.83.0)(stylus@0.54.8)(terser@5.37.0)
+      vitest: 2.1.8(@types/node@22.10.0)(@vitest/ui@2.1.8)(lightningcss@1.28.2)(sass-embedded@1.83.0)(stylus@0.54.8)(terser@5.37.0)
 
   '@vitest/utils@2.1.8':
     dependencies:
@@ -10467,9 +10670,9 @@ snapshots:
       de-indent: 1.0.2
       he: 1.2.0
 
-  '@vue/component-compiler-utils@3.3.0(hogan.js@3.0.2)(lodash@4.17.21)':
+  '@vue/component-compiler-utils@3.3.0(hogan.js@3.0.2)(lodash@4.17.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      consolidate: 0.15.1(hogan.js@3.0.2)(lodash@4.17.21)
+      consolidate: 0.15.1(hogan.js@3.0.2)(lodash@4.17.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       hash-sum: 1.0.2
       lru-cache: 4.1.5
       merge-source-map: 1.1.0
@@ -10730,7 +10933,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@vuepress/core@1.9.10(@vue/compiler-sfc@3.5.13)(hogan.js@3.0.2)(lodash@4.17.21)':
+  '@vuepress/core@1.9.10(@vue/compiler-sfc@3.5.13)(hogan.js@3.0.2)(lodash@4.17.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/core': 7.26.0
       '@vue/babel-preset-app': 4.5.19(@babel/core@7.26.0)(core-js@3.39.0)(vue@2.7.16)
@@ -10762,7 +10965,7 @@ snapshots:
       toml: 3.0.0
       url-loader: 1.1.2(webpack@4.47.0)
       vue: 2.7.16
-      vue-loader: 15.11.1(@vue/compiler-sfc@3.5.13)(cache-loader@3.0.1(webpack@4.47.0))(css-loader@2.1.1(webpack@4.47.0))(hogan.js@3.0.2)(lodash@4.17.21)(vue-template-compiler@2.7.16)(webpack@4.47.0)
+      vue-loader: 15.11.1(@vue/compiler-sfc@3.5.13)(cache-loader@3.0.1(webpack@4.47.0))(css-loader@2.1.1(webpack@4.47.0))(hogan.js@3.0.2)(lodash@4.17.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vue-template-compiler@2.7.16)(webpack@4.47.0)
       vue-router: 3.6.5(vue@2.7.16)
       vue-server-renderer: 2.7.16
       vue-template-compiler: 2.7.16
@@ -12370,6 +12573,16 @@ snapshots:
       chalk: 2.4.2
       q: 1.5.1
 
+  codemirror@6.0.1:
+    dependencies:
+      '@codemirror/autocomplete': 6.18.4
+      '@codemirror/commands': 6.8.0
+      '@codemirror/language': 6.10.8
+      '@codemirror/lint': 6.8.4
+      '@codemirror/search': 6.5.8
+      '@codemirror/state': 6.5.1
+      '@codemirror/view': 6.36.2
+
   collection-visit@1.0.0:
     dependencies:
       map-visit: 1.0.0
@@ -12463,12 +12676,14 @@ snapshots:
 
   console-browserify@1.2.0: {}
 
-  consolidate@0.15.1(hogan.js@3.0.2)(lodash@4.17.21):
+  consolidate@0.15.1(hogan.js@3.0.2)(lodash@4.17.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       bluebird: 3.7.2
     optionalDependencies:
       hogan.js: 3.0.2
       lodash: 4.17.21
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   constants-browserify@1.0.0: {}
 
@@ -12557,6 +12772,8 @@ snapshots:
       ripemd160: 2.0.2
       safe-buffer: 5.2.1
       sha.js: 2.4.11
+
+  crelt@1.0.6: {}
 
   cross-spawn@6.0.6:
     dependencies:
@@ -16625,10 +16842,10 @@ snapshots:
     dependencies:
       fs-extra: 11.2.0
 
-  rspress@1.38.0(webpack@5.97.1):
+  rspress@1.38.0(webpack@5.97.1(esbuild@0.24.2)):
     dependencies:
       '@rsbuild/core': 1.1.12
-      '@rspress/core': 1.38.0(webpack@5.97.1)
+      '@rspress/core': 1.38.0(webpack@5.97.1(esbuild@0.24.2))
       '@rspress/shared': 1.38.0
       cac: 6.7.14
       chalk: 5.3.0
@@ -17257,6 +17474,8 @@ snapshots:
 
   strip-json-comments@2.0.1: {}
 
+  style-mod@4.1.2: {}
+
   style-to-object@0.4.4:
     dependencies:
       inline-style-parser: 0.1.1
@@ -17364,14 +17583,16 @@ snapshots:
       webpack-sources: 1.4.3
       worker-farm: 1.7.0
 
-  terser-webpack-plugin@5.3.11(webpack@5.97.1):
+  terser-webpack-plugin@5.3.11(esbuild@0.24.2)(webpack@5.97.1(esbuild@0.24.2)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       jest-worker: 27.5.1
       schema-utils: 4.3.0
       serialize-javascript: 6.0.2
       terser: 5.37.0
-      webpack: 5.97.1
+      webpack: 5.97.1(esbuild@0.24.2)
+    optionalDependencies:
+      esbuild: 0.24.2
 
   terser@4.8.1:
     dependencies:
@@ -17875,6 +18096,24 @@ snapshots:
       - supports-color
       - terser
 
+  vite-node@2.1.8(@types/node@22.10.0)(lightningcss@1.28.2)(sass-embedded@1.83.0)(stylus@0.54.8)(terser@5.37.0):
+    dependencies:
+      cac: 6.7.14
+      debug: 4.4.0(supports-color@6.1.0)
+      es-module-lexer: 1.5.4
+      pathe: 1.1.2
+      vite: 5.4.11(@types/node@22.10.0)(lightningcss@1.28.2)(sass-embedded@1.83.0)(stylus@0.54.8)(terser@5.37.0)
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
   vite@5.4.11(@types/node@18.19.68)(lightningcss@1.28.2)(sass-embedded@1.83.0)(stylus@0.54.8)(terser@5.37.0):
     dependencies:
       esbuild: 0.21.5
@@ -18015,6 +18254,42 @@ snapshots:
       - supports-color
       - terser
 
+  vitest@2.1.8(@types/node@22.10.0)(@vitest/ui@2.1.8)(lightningcss@1.28.2)(sass-embedded@1.83.0)(stylus@0.54.8)(terser@5.37.0):
+    dependencies:
+      '@vitest/expect': 2.1.8
+      '@vitest/mocker': 2.1.8(vite@5.4.11(@types/node@22.10.0)(lightningcss@1.28.2)(sass-embedded@1.83.0)(stylus@0.54.8)(terser@5.37.0))
+      '@vitest/pretty-format': 2.1.8
+      '@vitest/runner': 2.1.8
+      '@vitest/snapshot': 2.1.8
+      '@vitest/spy': 2.1.8
+      '@vitest/utils': 2.1.8
+      chai: 5.1.2
+      debug: 4.4.0(supports-color@6.1.0)
+      expect-type: 1.1.0
+      magic-string: 0.30.17
+      pathe: 1.1.2
+      std-env: 3.8.0
+      tinybench: 2.9.0
+      tinyexec: 0.3.1
+      tinypool: 1.0.2
+      tinyrainbow: 1.2.0
+      vite: 5.4.11(@types/node@22.10.0)(lightningcss@1.28.2)(sass-embedded@1.83.0)(stylus@0.54.8)(terser@5.37.0)
+      vite-node: 2.1.8(@types/node@22.10.0)(lightningcss@1.28.2)(sass-embedded@1.83.0)(stylus@0.54.8)(terser@5.37.0)
+      why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/node': 22.10.0
+      '@vitest/ui': 2.1.8(vitest@2.1.8)
+    transitivePeerDependencies:
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
   vm-browserify@1.1.2: {}
 
   vscode-uri@3.0.8: {}
@@ -18025,9 +18300,9 @@ snapshots:
 
   vue-hot-reload-api@2.3.4: {}
 
-  vue-loader@15.11.1(@vue/compiler-sfc@3.5.13)(cache-loader@3.0.1(webpack@4.47.0))(css-loader@2.1.1(webpack@4.47.0))(hogan.js@3.0.2)(lodash@4.17.21)(vue-template-compiler@2.7.16)(webpack@4.47.0):
+  vue-loader@15.11.1(@vue/compiler-sfc@3.5.13)(cache-loader@3.0.1(webpack@4.47.0))(css-loader@2.1.1(webpack@4.47.0))(hogan.js@3.0.2)(lodash@4.17.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vue-template-compiler@2.7.16)(webpack@4.47.0):
     dependencies:
-      '@vue/component-compiler-utils': 3.3.0(hogan.js@3.0.2)(lodash@4.17.21)
+      '@vue/component-compiler-utils': 3.3.0(hogan.js@3.0.2)(lodash@4.17.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       css-loader: 2.1.1(webpack@4.47.0)
       hash-sum: 1.0.2
       loader-utils: 1.4.2
@@ -18093,12 +18368,12 @@ snapshots:
       - walrus
       - whiskers
 
-  vue-loader@17.4.2(webpack@5.97.1):
+  vue-loader@17.4.2(webpack@5.97.1(esbuild@0.24.2)):
     dependencies:
       chalk: 4.1.2
       hash-sum: 2.0.0
       watchpack: 2.4.2
-      webpack: 5.97.1
+      webpack: 5.97.1(esbuild@0.24.2)
 
   vue-router@3.6.5(vue@2.7.16):
     dependencies:
@@ -18184,9 +18459,9 @@ snapshots:
     dependencies:
       smoothscroll-polyfill: 0.4.4
 
-  vuepress@1.9.10(@vue/compiler-sfc@3.5.13)(hogan.js@3.0.2)(lodash@4.17.21):
+  vuepress@1.9.10(@vue/compiler-sfc@3.5.13)(hogan.js@3.0.2)(lodash@4.17.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@vuepress/core': 1.9.10(@vue/compiler-sfc@3.5.13)(hogan.js@3.0.2)(lodash@4.17.21)
+      '@vuepress/core': 1.9.10(@vue/compiler-sfc@3.5.13)(hogan.js@3.0.2)(lodash@4.17.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@vuepress/theme-default': 1.9.10
       '@vuepress/types': 1.9.10
       cac: 6.7.14
@@ -18285,6 +18560,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
       - typescript
+
+  w3c-keyname@2.2.8: {}
 
   watchpack-chokidar2@2.0.1:
     dependencies:
@@ -18421,7 +18698,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  webpack@5.97.1:
+  webpack@5.97.1(esbuild@0.24.2):
     dependencies:
       '@types/eslint-scope': 3.7.7
       '@types/estree': 1.0.6
@@ -18443,7 +18720,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.11(webpack@5.97.1)
+      terser-webpack-plugin: 5.3.11(esbuild@0.24.2)(webpack@5.97.1(esbuild@0.24.2))
       watchpack: 2.4.2
       webpack-sources: 3.2.3
     transitivePeerDependencies:
