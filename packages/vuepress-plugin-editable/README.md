@@ -39,3 +39,13 @@ Use with root directory
 layout: EditpressLayout
 ---
 ```
+
+### ref 驱动 dom 改动方案
+
+- https://cn.vuejs.org/guide/extras/reactivity-in-depth.html
+
+### RxJS
+
+RxJS 是一个用于处理异步事件流的库。VueUse 库提供了 @vueuse/rxjs 扩展来支持连接 RxJS 流与 Vue 的响应性系统。
+
+- https://rxjs.dev/guide/overview
