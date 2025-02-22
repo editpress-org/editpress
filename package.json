@@ -23,10 +23,12 @@
     "access": "public"
   },
   "devDependencies": {
+    "@codemirror/lang-markdown": "^6.3.2",
     "@rsbuild/core": "1.1.12",
     "@rsbuild/plugin-node-polyfill": "1.2.0",
     "@rsbuild/plugin-vue": "^1.0.5",
     "@vitest/ui": "^2.1.8",
+    "codemirror": "^6.0.1",
     "fast-glob": "^3.3.2",
     "rspress": "^1.38.0",
     "tsup": "^8.3.5"
@@ -39,5 +41,6 @@
     "packages": [
       "packages/*"
     ]
-  }
+  },
+  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
 }

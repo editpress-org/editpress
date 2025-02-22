@@ -73,3 +73,14 @@ pnpm run docs:dev
 code dist-vue/client/setup.js  dist-vue-tsc/client/setup.js --diff
 
 ```
+
+```js
+import {EditorView, basicSetup} from "codemirror"
+import {markdown} from "@codemirror/lang-markdown"
+
+const view = new EditorView({
+  parent: document.body,
+  doc: `*CodeMirror* Markdown \`mode\``,
+  extensions: [basicSetup, markdown()]
+})
+```
