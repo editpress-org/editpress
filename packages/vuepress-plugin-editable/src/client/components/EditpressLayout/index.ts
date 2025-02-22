@@ -1,7 +1,6 @@
 
 import ParentLayout from '@vuepress/theme-default/layouts/Layout.vue'
-import VPPage from '@vuepress/theme-default/components/VPPage.vue'
-import { h, defineComponent, computed, reactive, ref, watch } from "vue";
+import { h, defineComponent, computed, reactive, ref, watch, onMounted } from "vue";
 import { usePageData, useClientData, usePageFrontmatter } from 'vuepress/client';
 import { offSvgCode, onSvgCode } from '../../../shared/assets';
 import { useStore } from "../../useStore";
@@ -63,16 +62,29 @@ export default defineComponent({
       }, '还原'),
     ]
 
+    onMounted(() => {
+      console.log('EditpressLayout mounted=>')
+      const editpressPageNode = document.getElementById('editpress-page')
+
+      // attachment the id to VP default node
+      if (editpressPageNode) {
+        const nextSiblingNode = editpressPageNode.nextElementSibling as Element | null
+        if (nextSiblingNode) {
+          nextSiblingNode.id = 'editpress-default-content'
+        }
+      }
+    })
+
     return () => {
       const renderVNode = storeData.isAuth ? authVNode() : noAuthVnode()
 
       return h(ParentLayout, {}, {
         'page-content-top': () => h('div', { class: 'editpress-auth-decoration', id: "editpress-page" }, [
+          renderVNode,
           // markdown editable node
           h('div', { id: "editpress-markdown" }, [
-            h('div', { id: "editpress-markdown-content", })
+            h('div', { id: "editpress-markdown-actionBar", })
           ]),
-          renderVNode,
         ]
         )
       })

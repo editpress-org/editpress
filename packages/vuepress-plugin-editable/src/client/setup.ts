@@ -33,8 +33,6 @@ export default function setup() {
     if (targetNode) {
       targetNode.removeEventListener('dblclick', dblClick);
       targetNode.addEventListener('dblclick', dblClick);
-      targetNode.removeEventListener('click', outsideClick);
-      targetNode.addEventListener('click', outsideClick);
     }
     saveAccessToken();
   })
@@ -46,6 +44,8 @@ export default function setup() {
   }
 
 
+
+
   /**
    * review component handler
    * and destroyed the review component
@@ -54,13 +54,22 @@ export default function setup() {
     console.log('来着 review 组件，要求关闭=>', closeStatus)
     isShowReview.value = closeStatus
 
-    const dom = document.getElementById('editpress-markdown-content')
+    // editpress-markdown
+    const dom = document.getElementById('editpress-markdown-actionBar')
+    const defaultDom = document.getElementById('editpress-default-content')
+    if (defaultDom) {
+      defaultDom.style.display = 'block'
+    }
     if (!(dom instanceof Element)) {
       return
     };
     render(null, dom)
+
   }
 
+  /**
+   * @TODO  debug 测试
+  */
   const dblClick = () => {
     console.log('双击')
 
@@ -69,12 +78,12 @@ export default function setup() {
     }
 
     const editpressMarkdownNode = document.getElementById('editpress-markdown')
-    const editpressMounterNode = document.getElementById('editpress-markdown-content')
+    const editpressMounterNode = document.getElementById('editpress-markdown-actionBar')
 
-    if (!(editpressMarkdownNode instanceof Element)) {
-      return
-    };
-    if (!(editpressMounterNode instanceof Element)) {
+    const isMarkdownNode = editpressMarkdownNode instanceof Element
+    const isMarkdownContentNode = editpressMounterNode instanceof Element;
+
+    if (!isMarkdownNode || !isMarkdownContentNode) {
       return
     };
 
@@ -88,43 +97,16 @@ export default function setup() {
     })
     const isVNode = (editpressMounterNode as any)._vnode?.__v_isVNode;
 
+    const vpDefaultContentNode = document.getElementById('editpress-default-content') as HTMLElement | null
+    if (vpDefaultContentNode) {
+      vpDefaultContentNode.style.display = 'none'
+    }
+
+
     isShowReview.value = true;
     console.log('isVNode=>', isVNode)
     render(vNode, editpressMounterNode)
-    // render(isVNode ? null : vNode, editpressMounterNode)
-    // if (!(target instanceof Element)) return;
-    // const currentLine = target.getAttribute('data-editable-line');
-    // if (currentLine || currentLine != null) {
-    //   let oAuth = 'Github OAuth';
-    //   target.classList.add('focus-editable');
-    //   if (!isOAuthStatus()) {
-    //     createMenu(event, { oAuth });
-    //   }
-    //   if (isPlainText(target)) {
-    //     target.classList.remove('no-edit');
-    //     if (isOAuthStatus()) {
-    //       createMenu(event, {
-    //         apply: '应用',
-    //         restore: '还原',
-    //       });
-    //       target.setAttribute('contenteditable', 'true');
-    //       listenerInput(event);
-    //     }
-    //   } else {
-    //     target.classList.add('no-edit');
-    //     if (isOAuthStatus()) {
-    //       createMenu(event, {
-    //         update: '修改',
-    //         restore: '还原',
-    //       });
-    //     }
-    //   }
 
-    //   preLine.value = Number(currentLine)
-    //   preNode.value = event.target;
-    //   // temp handler 实际上这种处理方式欠妥
-    //   preNodeContent.value = target.innerHTML.replace(/<strong(.+?)strong>/g, '');
-    // }
   };
 
   const saveAccessToken = () => {
@@ -134,24 +116,7 @@ export default function setup() {
       sessionStorage.githubLogin = login || '';
     }
   }
-  /**
-   * click outside
-   */
-  const outsideClick = (event: Event) => {
-    // const { target } = event
-    // if (!(target instanceof Element)) return;
-    // const clickLine = target.getAttribute('data-editable-line');
-    // if (preLine.value && Number(clickLine) !== preLine.value && !target.classList.contains('no-need-close')) {
-    //   if (preNode.value) {
-    //     const editableElement = preNode.value as HTMLElement; // 类型断言
-    //     editableElement.removeAttribute('contenteditable');
-    //     editableElement.classList.remove('focus-editable');
-    //     editableElement.classList.remove('no-edit');
-    //   }
-    //   removeMenu();
-    // }
-    // bindMenuEvent(event);
-  }
+
   const bindMenuEvent = (event: Event) => {
     const target = event.target;
     if (!(target instanceof Element)) return;

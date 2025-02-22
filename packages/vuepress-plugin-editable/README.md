@@ -9,6 +9,14 @@ Use with root directory
 - shiki
 - markdown-it
 
+#### 处理的 node 节点
+
+- editpress-markdown-actionBar
+- editpress-default-content 原始 markdown div
+- editpress-markdown actionBar + codemirror
+- focus-editable TODO
+- editpress-new-content
+
 ### server
 
 - API

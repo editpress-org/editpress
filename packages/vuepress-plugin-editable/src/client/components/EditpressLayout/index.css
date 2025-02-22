@@ -15,12 +15,8 @@
   position: relative;
 }
 
-#editpress-markdown-content {
-  position: absolute;
-  left: 45%;
-  top: var(--navbar-height);
-  transform: translateX(-45%);
-  width: calc(var(--content-width) + 10px);
+#editpress-markdown-actionBar {
+  position: relative;
   background: #fff;
   border-radius: 4px;
   z-index: 10;

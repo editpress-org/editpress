@@ -4,6 +4,7 @@ import EditableLoading from './components/Loading';
 import EditablePoptip from './components/Poptip';
 import EditpressLayout from './components/EditpressLayout';
 import setup from './setup';
+import '../shared/global.css'
 
 export default defineClientConfig({
   enhance({ app }) {

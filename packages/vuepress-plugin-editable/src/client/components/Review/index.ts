@@ -2,7 +2,6 @@ import { h, onMounted, computed, ref, defineComponent } from 'vue'
 import type { VNode } from 'vue'
 import { fetchOps } from '../../../shared/config';
 import { useStore } from '../../useStore'
-import Position from '../Position'
 import { basicSetup, EditorView } from "codemirror"
 import { markdown } from "@codemirror/lang-markdown"
 
@@ -25,13 +24,21 @@ export default defineComponent({
     const disabled = ref(false);
     const originContentLine = ref(content?.length);
     const otherDivLine = ref(0);
-    const bodyScrollDefaultValue = ref('');
+    const codemirrorRef = ref();
 
-    // 计算属性 breakLines
-    const breakLines = computed(() => originContentLine.value + otherDivLine.value);
+    const destroyCodeMirror = () => {
+      const domParent = document.getElementById('editpress-markdown')
+      if (domParent instanceof Element) {
+        console.log('editpress-markdown-actionBar=>', domParent)
+        if (codemirrorRef.value) {
+          codemirrorRef.value?.destroy();
+        }
+      }
+    }
 
     // 定义关闭模态框的方法
     const closeModal = () => {
+      destroyCodeMirror()
       emit('reviewClose', false)
     };
 
@@ -129,13 +136,13 @@ export default defineComponent({
     };
 
     const onMountedMarkdown = (text: string) => {
-      const markdownNode = document.querySelector('#editpress-markdown')
+      const markdownNode = document.getElementById('editpress-markdown')
       if (!markdownNode) return
 
-      new EditorView({
+      codemirrorRef.value = new EditorView({
         doc: text,
-        extensions: [basicSetup, markdown()],
-        parent: markdownNode
+        extensions: [basicSetup, markdown(),EditorView.lineWrapping,],
+        parent: markdownNode,
       })
 
     }
@@ -147,9 +154,6 @@ export default defineComponent({
       onMountedMarkdown(content)
     });
 
-
-    // TODO 怎么挂载到某个 id 下~
-
     const vNode = (): VNode => h('div', {
       id: "editpress-review",
       style: {
@@ -160,21 +164,17 @@ export default defineComponent({
       h('div', {
         class: 'editable-review-warp',
       }, [
-        // h(Position, { lines: Number(breakLines) }),
         h('div', { class: 'editable-review-code' }, [
           h('div', { class: 'editable-new-code editable-review-body' }, [
 
-            h('p', {}, [
-              'Powered by',
+            h('div', {}, [
+              'Powered by ',
               h('a', { href: 'https://github.com/vuepress/vuepress-plugin-editable/', target: '_blank' }, 'vuepress-plugin-editable'),
-              'and',
-              h('a', { href: 'https://github.com/veaba/veaba-bot/', target: '_blank' }, 'vuepress-plugin-editable'), 'veaba-bot'
-            ]),
-            h('div', { id: 'editpress-markdown' }),
-            // h('pre', { class: 'editable-new-content', contenteditable: true, onInput: onChange }, content),
-            h('div', { class: 'editable-review-btn', }, [
+              ' and ',
+              h('a', { href: 'https://github.com/veaba/veaba-bot/', target: '_blank' }, 'veaba-bot'),
               h('button', {
                 disabled: disabled.value,
+                class: 'editable-grid-space',
                 onClick: onApplyPullRequest
               }, '应用(Apply)'),
               h('button', {

@@ -1,4 +1,4 @@
-import { h, ref, onMounted, defineComponent, computed } from 'vue';
+import { h, ref, defineComponent, computed } from 'vue';
 import type { VNode } from 'vue'
 import { useStore } from '../../useStore';
 import './index.css'
