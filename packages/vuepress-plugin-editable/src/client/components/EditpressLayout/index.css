@@ -1,12 +1,10 @@
 .editpress-auth-decoration {
-  display: flex;
-  justify-content: flex-end;
+  position: relative;
 }
 
 .p4 {
   padding-left: 4px;
-  /** TODO 跟随主题颜色？*/
-  color: #299764;
+  color: var(--vp-c-accent);
 }
 
 #editpress-page {
@@ -14,23 +12,20 @@
 }
 
 #editpress-markdown {
-  /* position: fixed;
-  left: 0;
-  top: 0;
-  height: 100vh;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 10; */
+  position: relative;
 }
 
 #editpress-markdown-content {
-  /* position: absolute;
-  left: 56%;
+  position: absolute;
+  left: 45%;
   top: var(--navbar-height);
   transform: translateX(-45%);
   width: calc(var(--content-width) + 10px);
-  height: 90%;
-  border: 1px solid red;
-  overflow-y: auto;
-  background: #fff; */
+  background: #fff;
+  border-radius: 4px;
+  z-index: 10;
+}
+
+.editable-menu {
+  justify-content: flex-end;
 }

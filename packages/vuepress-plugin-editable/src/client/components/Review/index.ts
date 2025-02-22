@@ -143,9 +143,8 @@ export default defineComponent({
     }, [
       h('div', {
         class: 'editable-review-warp',
-        contenteditable: true
       }, [
-        h(Position, { lines: Number(breakLines) }),
+        // h(Position, { lines: Number(breakLines) }),
         h('div', { class: 'editable-review-code' }, [
           h('div', { class: 'editable-new-code editable-review-body' }, [
 
