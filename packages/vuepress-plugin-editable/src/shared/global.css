@@ -5,3 +5,25 @@
 .cm-editor {
   border: 1px solid #d1d9e0;
 }
+
+.editpress-no-auth-tip {
+  position: absolute;
+  top: 20;
+  right: 0;
+  width: 150px;
+  height: 30px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.editpress-no-auth-tip::after {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  content: '';
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid rgba(0, 0, 0, 0.8);
+}

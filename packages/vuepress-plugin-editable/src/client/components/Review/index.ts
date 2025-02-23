@@ -1,20 +1,18 @@
-import { h, onMounted, watch, ref, defineComponent, watchEffect } from 'vue'
-import type { VNode } from 'vue'
+import { h, onMounted, watch, inject, ref, defineComponent, watchEffect } from 'vue'
+import type { VNode, Ref } from 'vue'
 import { fetchOps } from '../../../shared/config';
 import { useStore } from '../../useStore'
 import { basicSetup, EditorView } from "codemirror"
 import { markdown } from "@codemirror/lang-markdown"
-
 import './index.css'
-
-// TODO 如何使用 markdown 编辑器，把 一个 id 进行编辑器化？？
 
 export default defineComponent({
   name: 'Review',
-  props: ['pageDataProps'],
+  props: ['pageDataProps', 'isEditing'],
   setup(props, { attrs, slots, emit, expose }) {
     const { storeData, actions } = useStore()
     const { content } = props.pageDataProps.value
+    const { isEditing } = props
 
     // 定义响应式数据
     const eventData = ref(storeData.reviewData);
@@ -23,17 +21,17 @@ export default defineComponent({
     const otherDivLine = ref(0);
     const codemirrorRef = ref();
 
-    const x =  ref(storeData.isEditing)
 
-    watch(x,(val)=>{
-      console.log('val=>',val)
+    // const isEditing = inject('isEditing') as Ref<boolean>
+
+    watch(isEditing, (val) => {
+      console.log('oo isEditing=>', val)
     })
-    
+
 
     const destroyCodeMirror = () => {
       const domParent = document.getElementById('editpress-markdown')
       if (domParent instanceof Element) {
-        console.log('editpress-markdown-actionBar=>', domParent)
         if (codemirrorRef.value) {
           codemirrorRef.value?.destroy();
         }
@@ -145,7 +143,7 @@ export default defineComponent({
 
       codemirrorRef.value = new EditorView({
         doc: text,
-        extensions: [basicSetup, markdown(),EditorView.lineWrapping,],
+        extensions: [basicSetup, markdown(), EditorView.lineWrapping,],
         parent: markdownNode,
       })
 
@@ -190,9 +188,7 @@ export default defineComponent({
       ])
     ])
 
-    console.log('isShowReview=>', storeData.isEditing)
-
-    if (!storeData.isEditing) return h('div',)
+    if (!isEditing) return null
 
     return vNode
   }
