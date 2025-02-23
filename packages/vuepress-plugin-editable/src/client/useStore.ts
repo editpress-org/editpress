@@ -28,6 +28,7 @@ interface StoreData {
   closeStatus: boolean,
   status: boolean
   isAuth: boolean
+  isEditing: boolean
 }
 
 export function useStore() {
@@ -52,6 +53,10 @@ export function useStore() {
      * check auth status
     */
     isAuth: false,
+    /**
+     * check editing
+    */
+    isEditing: false
   })
 
   onMounted(() => {
@@ -83,13 +88,20 @@ export function useStore() {
   const setAuth = (status: boolean) => {
     storeData.isAuth = status;
   }
+  
+  
+  const setEditing = (status: boolean) => {
+    console.log('setEditing=>',status)
+    storeData.isEditing = status;
+  }
 
   const actions = {
     setReviewData,
     setLoading,
     setClose,
     setPoptipData,
-    setAuth
+    setAuth,
+    setEditing
   }
 
   return {

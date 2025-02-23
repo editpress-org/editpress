@@ -1,6 +1,7 @@
 
 import ParentLayout from '@vuepress/theme-default/layouts/Layout.vue'
-import { h, defineComponent, computed, reactive, ref, watch, onMounted } from "vue";
+import { h, defineComponent, inject, computed, reactive, ref, watch, onMounted, watchEffect } from "vue";
+import type { Ref } from 'vue'
 import { usePageData, useClientData, usePageFrontmatter } from 'vuepress/client';
 import { offSvgCode, onSvgCode } from '../../../shared/assets';
 import { useStore } from "../../useStore";
@@ -17,6 +18,12 @@ export default defineComponent({
 
     const { githubOAuthUrl, clientId, redirectAPI } = editableData || {};
     const href = `${githubOAuthUrl}?client_id=${clientId}&redirect_uri=${redirectAPI}?reference=${window.location.href}`;
+
+    const isEditing = inject('isEditing') as Ref<boolean>
+
+    watch(isEditing, (val) => {
+      console.log('oo isEditing=>', val)
+    })
 
     // no auth
     const noAuthVnode = () => h('a', {
@@ -35,45 +42,29 @@ export default defineComponent({
     ])
 
     // auth
-    const authVNode = () => h('span', {
-      class: ['no-need-close', `editable-menu`],
-      style: { display: 'flex', 'margin-top': '4px' },
-    }, [
-      h('span', {
-        innerHTML: onSvgCode
-      }, ''),
-      h('span', {
-        class: ['p4']
-      }, '编辑'),
-    ])
-    // TODO
-    const btnEditVnode = [
-      h('span', {
-        class: ['no-need-close', 'editable-apply', 'p4'],
-        onClick() {
-          console.log('应用=>')
-        },
-      }, '应用'),
-      h('span', {
-        class: ['no-need-close', 'editable-restore', 'p4'],
-        onClick() {
-          location.reload();
-        },
-      }, '还原'),
-    ]
+    const authVNode = () => {
 
-    onMounted(() => {
-      console.log('EditpressLayout mounted=>')
-      const editpressPageNode = document.getElementById('editpress-page')
+      return h('span', {
+        class: ['no-need-close', `editable-menu`],
+        style: { display: 'flex', 'margin-top': '4px' },
+      }, [
+        h('span', {
+          innerHTML: onSvgCode
+        }, ''),
 
-      // attachment the id to VP default node
-      if (editpressPageNode) {
-        const nextSiblingNode = editpressPageNode.nextElementSibling as Element | null
-        if (nextSiblingNode) {
-          nextSiblingNode.id = 'editpress-default-content'
-        }
-      }
-    })
+        isEditing.value ?
+          h('span', {
+            class: ['p4', 'editable-editing'],
+          }, ['编', '辑', '中', '~'].map((item, i) => h('span', { style: `--char-index: ${i}` }, item))) :
+          h('span', {
+            class: ['p4'],
+          }, '双击编辑'),
+      ])
+    }
+
+    '编辑中~'
+
+    // editable-editing
 
     return () => {
       const renderVNode = storeData.isAuth ? authVNode() : noAuthVnode()

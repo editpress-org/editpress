@@ -1,4 +1,4 @@
-import { h, onMounted, computed, ref, defineComponent } from 'vue'
+import { h, onMounted, watch, ref, defineComponent, watchEffect } from 'vue'
 import type { VNode } from 'vue'
 import { fetchOps } from '../../../shared/config';
 import { useStore } from '../../useStore'
@@ -15,9 +15,6 @@ export default defineComponent({
   setup(props, { attrs, slots, emit, expose }) {
     const { storeData, actions } = useStore()
     const { content } = props.pageDataProps.value
-    const isShowReview = ref(true)
-
-    // console.log('Review content=>', content)
 
     // 定义响应式数据
     const eventData = ref(storeData.reviewData);
@@ -25,6 +22,13 @@ export default defineComponent({
     const originContentLine = ref(content?.length);
     const otherDivLine = ref(0);
     const codemirrorRef = ref();
+
+    const x =  ref(storeData.isEditing)
+
+    watch(x,(val)=>{
+      console.log('val=>',val)
+    })
+    
 
     const destroyCodeMirror = () => {
       const domParent = document.getElementById('editpress-markdown')
@@ -186,10 +190,9 @@ export default defineComponent({
       ])
     ])
 
-    console.log('isShowReview=>', isShowReview.value)
+    console.log('isShowReview=>', storeData.isEditing)
 
-    if (!isShowReview.value) return h('div',)
-
+    if (!storeData.isEditing) return h('div',)
 
     return vNode
   }

@@ -3,8 +3,8 @@
 */
 import { useThemeData } from '@vuepress/plugin-theme-data/client';
 import type { ThemeData } from '@vuepress/plugin-theme-data/client';
-import type { BtnWords, ExtendPages, GetOriginContent, PostSingleData } from '../typings';
-import { onUnmounted, h, render, ref, onMounted, cloneVNode, createApp, provide } from 'vue'
+import type { GetOriginContent, PostSingleData } from '../typings';
+import { onUnmounted, h, watch, render, ref, onMounted, cloneVNode, createApp, provide } from 'vue'
 import { fetchOps } from '../shared/config';
 import { usePageData, useRoute } from 'vuepress/client';
 import { useStore } from './useStore'
@@ -16,13 +16,13 @@ export default function setup() {
   const pageData = usePageData() as Record<string, any>
   const { storeData, actions } = useStore()
   const router = useRoute()
-  const preLine = ref<number | null>(null)
   const preNode = ref<EventTarget | null>(null)
-  const preNodeContent = ref({})
   const isPlainTextStatus = ref(false)
 
-  const isShowReview = ref(false)
+  // TODO 提供一个测试参数，表达双击状态
 
+  const isEditing = ref(false)
+  provide('isEditing', isEditing)
 
   // TODO  这个其实可以优化的
   const themeData = useThemeData() as ThemeData as unknown as { repo?: string };
@@ -30,20 +30,32 @@ export default function setup() {
   onMounted(() => {
     const targetNode = document.querySelector('body');
 
+    // setInterval(()=>{
+    //   isEditing.value = !isEditing.value
+    // },1000)
+
     if (targetNode) {
       targetNode.removeEventListener('dblclick', dblClick);
       targetNode.addEventListener('dblclick', dblClick);
     }
+
+    const editpressPageNode = document.getElementById('editpress-page')
+
+    // attachment the id to VP default node
+    if (editpressPageNode) {
+      const nextSiblingNode = editpressPageNode.nextElementSibling as Element | null
+      if (nextSiblingNode) {
+        nextSiblingNode.id = 'editpress-default-content'
+      }
+    }
     saveAccessToken();
   })
 
-  /**
-   * 唤起 markdown-it 编辑器
-  */
-  const onCallMarkdownEditor = (event: Event) => {
-  }
 
-
+  // TODO 为什么这个组件没有获取到新值
+  watch(() => isEditing, (newVal) => {
+    console.log('watch 新值=>', newVal)
+  })
 
 
   /**
@@ -51,10 +63,9 @@ export default function setup() {
    * and destroyed the review component
   */
   const onReviewClose = (closeStatus: boolean) => {
-    console.log('来着 review 组件，要求关闭=>', closeStatus)
-    isShowReview.value = closeStatus
+    console.log('来自 review 组件，要求关闭=>', closeStatus)
+    actions.setEditing(closeStatus)
 
-    // editpress-markdown
     const dom = document.getElementById('editpress-markdown-actionBar')
     const defaultDom = document.getElementById('editpress-default-content')
     if (defaultDom) {
@@ -72,40 +83,46 @@ export default function setup() {
   */
   const dblClick = () => {
     console.log('双击')
+    // debug TODO remove 
+    // actions.setEditing(!storeData.isEditing)
+    isEditing.value = !isEditing.value
 
-    if (isShowReview.value) {
-      return
-    }
-
-    const editpressMarkdownNode = document.getElementById('editpress-markdown')
-    const editpressMounterNode = document.getElementById('editpress-markdown-actionBar')
-
-    const isMarkdownNode = editpressMarkdownNode instanceof Element
-    const isMarkdownContentNode = editpressMounterNode instanceof Element;
-
-    if (!isMarkdownNode || !isMarkdownContentNode) {
-      return
-    };
-
-    // isShowReview
-    editpressMarkdownNode.style.display = 'block'
+    // if (storeData.isEditing) {
+    //   return
+    // }
 
 
-    const vNode = h(Review, {
-      pageDataProps: pageData,
-      onReviewClose
-    })
-    const isVNode = (editpressMounterNode as any)._vnode?.__v_isVNode;
+    // BUG
 
-    const vpDefaultContentNode = document.getElementById('editpress-default-content') as HTMLElement | null
-    if (vpDefaultContentNode) {
-      vpDefaultContentNode.style.display = 'none'
-    }
+    // const editpressMarkdownNode = document.getElementById('editpress-markdown')
+    // const editpressMounterNode = document.getElementById('editpress-markdown-actionBar')
+
+    // const isMarkdownNode = editpressMarkdownNode instanceof Element
+    // const isMarkdownContentNode = editpressMounterNode instanceof Element;
+
+    // if (!isMarkdownNode || !isMarkdownContentNode) {
+    //   return
+    // };
+
+    // // if editing
+    // editpressMarkdownNode.style.display = 'block'
 
 
-    isShowReview.value = true;
-    console.log('isVNode=>', isVNode)
-    render(vNode, editpressMounterNode)
+    // const vNode = h(Review, {
+    //   pageDataProps: pageData,
+    //   onReviewClose
+    // })
+    // const isVNode = (editpressMounterNode as any)._vnode?.__v_isVNode;
+
+    // const vpDefaultContentNode = document.getElementById('editpress-default-content') as HTMLElement | null
+    // if (vpDefaultContentNode) {
+    //   vpDefaultContentNode.style.display = 'none'
+    // }
+
+
+    // actions.setEditing(true)
+    // console.log('isVNode=>', isVNode)
+    // render(vNode, editpressMounterNode)
 
   };
 
@@ -281,9 +298,5 @@ export default function setup() {
     focusNode?.removeAttribute('contenteditable');
     const editableElement = preNode.value as HTMLElement; // 类型断言
     editableElement?.classList?.remove('focus-editable');
-  }
-
-  return () => {
-    h('div', 'xx')
   }
 };

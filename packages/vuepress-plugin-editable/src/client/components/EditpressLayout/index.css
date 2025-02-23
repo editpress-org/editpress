@@ -25,3 +25,37 @@
 .editable-menu {
   justify-content: flex-end;
 }
+
+@keyframes color-wave {
+  0% {
+    color: #FF5733;
+  }
+  50% {
+    color: #33FF57;
+  }
+  100% {
+    color: #FF5733;
+  }
+}
+
+/* 定义位移波浪动画 */
+@keyframes move-wave {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-4px);
+  }
+  60% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.editable-editing span{
+  display: inline-block;
+  animation: color-wave 2s infinite, move-wave 2s infinite;
+  animation-delay: calc(var(--char-index) * 0.1s);
+}
