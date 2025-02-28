@@ -1,9 +1,10 @@
-import { h, onMounted, watch, inject, ref, defineComponent, watchEffect } from 'vue'
-import type { VNode, Ref } from 'vue'
+import { h, onMounted, render, watch, ref, defineComponent, watchEffect, nextTick } from 'vue'
+import type { VNode } from 'vue'
 import { fetchOps } from '../../../shared/config';
 import { useStore } from '../../useStore'
 import { basicSetup, EditorView } from "codemirror"
 import { markdown } from "@codemirror/lang-markdown"
+import Poptip from '../Poptip';
 import './index.css'
 
 export default defineComponent({
@@ -13,6 +14,7 @@ export default defineComponent({
     const { storeData, actions } = useStore()
     const { content } = props.pageDataProps.value
     const { isEditing } = props
+    const { owner, repo } = storeData
 
     // 定义响应式数据
     const eventData = ref(storeData.reviewData);
@@ -21,13 +23,11 @@ export default defineComponent({
     const otherDivLine = ref(0);
     const codemirrorRef = ref();
 
-
-    // const isEditing = inject('isEditing') as Ref<boolean>
-
-    watch(isEditing, (val) => {
-      console.log('oo isEditing=>', val)
-    })
-
+    const poptipData = ref({
+      success: false,
+      data: {},
+      message: ''
+    },)
 
     const destroyCodeMirror = () => {
       const domParent = document.getElementById('editpress-markdown')
@@ -55,14 +55,6 @@ export default defineComponent({
       };
     };
 
-    // 切换页面滚动的方法
-    const switchBodyScroll = () => {
-      const body: HTMLBodyElement = document.querySelector('body')!;
-      if (!body) return
-      const tempOverflowValue = body.style.overflow;
-      body.style.overflow = 'hidden';
-      return tempOverflowValue;
-    };
 
     // 计算原始内容行数的方法
     const countOriginContent = (nodeOrContent, isNode = false) => {
@@ -92,23 +84,28 @@ export default defineComponent({
       debouncedFn();
     };
 
+    const renderPoptip = (status: boolean) => {
+      const vNode = h(Poptip, { poptipData: poptipData.value, poptipStatus: status })
+      render(vNode, document.body)
+    }
+
     // 应用拉取请求的方法
     const onApplyPullRequest = () => {
-      disabled.value = true;
-      const contentNode = document.querySelector('.editable-new-content');
-      if (!contentNode) return
-      const content = (contentNode as HTMLElement)?.innerText as string;
-      actions.setLoading(true)
 
-      const pageData = props.pageDataProps.value
-      const { updateAPI } = pageData.editableData || {};
+      disabled.value = true;
+
+      const newContent = codemirrorRef.value?.state.doc.toString()
+      actions.setLoading(true)
+      const { editableData } = props.pageDataProps.value
+      const { updateAPI, path } = editableData || {};
+
 
       fetch(updateAPI, {
         body: JSON.stringify({
-          owner: eventData.value.owner,
-          repo: eventData.value.repo,
-          path: eventData.value.path,
-          content: content,
+          owner,
+          repo,
+          path,
+          content: newContent,
         }),
         method: 'POST',
         ...fetchOps,
@@ -121,19 +118,21 @@ export default defineComponent({
         .then((res) => res.json())
         .then((data) => {
           disabled.value = false;
+          poptipData.value = data
           if (data.success) {
-            eventData.value.status = false;
-            setTimeout(() => {
-              location.reload();
-            }, 5000);
+            // TODO ===========
+            // setTimeout(() => {
+            //   location.reload();
+            // }, 5000);
+          } else {
+            nextTick(() => {
+              renderPoptip(false)
+            })
           }
-          switchBodyScroll();
           actions.setLoading(false)
-          actions.setReviewData(data)
         })
         .catch(() => {
           actions.setLoading(false)
-          switchBodyScroll();
         });
     };
 
@@ -147,10 +146,11 @@ export default defineComponent({
         parent: markdownNode,
       })
 
+
     }
     onMounted(() => {
       originContentLine.value = countOriginContent(content);
-      console.log(' Review 挂载 storeData=>', storeData)
+      // console.log(' Review 挂载 storeData=>', content)
 
       // mounted markdown
       onMountedMarkdown(content)

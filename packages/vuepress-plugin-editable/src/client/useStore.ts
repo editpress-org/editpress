@@ -3,8 +3,12 @@
  * event bus
  *
  */
-import { usePageData, useRoute } from 'vuepress/client';
-import { reactive, onMounted, computed, toRaw, toRef, ref } from "vue";
+import { useRoute } from 'vuepress/client';
+import { reactive, onMounted, h, render, ref, nextTick } from "vue";
+import { useThemeData } from '@vuepress/plugin-theme-data/client';
+import type { OwnerRepo } from '../typings';
+import Loading from './components/Loading';
+import Poptip from './components/Poptip';
 
 interface PreviewData {
   content: string,
@@ -14,45 +18,56 @@ interface PreviewData {
   path: string
 }
 
-interface PoptipData {
-  success: boolean,
-  data: any,
-  message: string
-  not_found_repo_link?: string
-}
 
 interface StoreData {
   showLoading: boolean,
   reviewData: PreviewData,
-  poptipData: PoptipData,
   closeStatus: boolean,
   status: boolean
   isAuth: boolean
+  repo: string,
+  owner: string,
 }
 
+const getOwnerRepo = (ownerRepo: string): OwnerRepo => {
+  const strArr = ownerRepo.split('/');
+  return {
+    owner: strArr[0] ? strArr[0] : '',
+    repo: strArr[1] ? strArr[1] : '',
+  };
+}
+
+
 export function useStore() {
+
+  const themeData = useThemeData().value as { repo?: string }
+  const { repo, owner } = getOwnerRepo(themeData.repo || '')
 
   const storeData = reactive<StoreData>({
     showLoading: false,
     reviewData: {
-      content: '', // TODO
+      content: '',
       status: false,
       owner: '',
       repo: '',
       path: ''
     },
-    poptipData: {
-      success: false,
-      data: {},
-      message: ''
-    },
+
     closeStatus: false,
     status: false,
     /**
      * check auth status
     */
     isAuth: false,
+    repo,
+    owner,
   })
+
+  const poptipData = ref({
+    success: false,
+    data: {},
+    message: ''
+  },)
 
   onMounted(() => {
     const router = useRoute()
@@ -63,19 +78,17 @@ export function useStore() {
 
   const setReviewData = (json) => {
     storeData.reviewData = { ...json };
-
   }
   const setLoading = (status: boolean) => {
     storeData.showLoading = status;
+    const vNode = h(Loading)
+    render(vNode, document.body)
   }
   const setClose = (status: boolean) => {
     storeData.closeStatus = status;
   }
 
-  const setPoptipData = (json: any, status: boolean) => {
-    storeData.poptipData = json;
-    setStatus(status);
-  }
+
   const setStatus = (status: boolean) => {
     storeData.status = status;
   }
@@ -84,18 +97,29 @@ export function useStore() {
     storeData.isAuth = status;
   }
 
+  const renderPoptip = (status) => {
+    const vNode = h(Poptip, { poptipData, poptipStatus: status })
+    render(vNode, document.body)
+  }
+  const setPoptipData = (json, status: boolean) => {
+    poptipData.value = json, status
 
+    nextTick(() => {
+      renderPoptip(status)
+    })
+  }
 
   const actions = {
     setReviewData,
     setLoading,
     setClose,
-    setPoptipData,
     setAuth,
+    setPoptipData,
   }
+
 
   return {
     storeData,
-    actions
+    actions,
   }
 }

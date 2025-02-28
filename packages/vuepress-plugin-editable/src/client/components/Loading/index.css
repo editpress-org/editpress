@@ -6,6 +6,7 @@
   width: 100%;
   height: 100%;
   background: #282c34ba;
+  z-index: 100;
 }
 .editable-loading p {
   position: relative;

@@ -6,7 +6,6 @@ import type { App, Page } from 'vuepress/core';
 import type { Markdown } from 'vuepress/markdown';
 import { generateLine } from './line.js';
 import { path, getDirname } from 'vuepress/utils';
-
 import type { Options } from '../typings.js';
 
 const { appDomain, redirectAPI, clientId, updateAPI, getContentAPI, githubOAuthUrl } = configAPI;
@@ -25,11 +24,12 @@ export const editablePlugin = (options: Options) => ({
   extendsPage(page: Page) {
     const cwdLen = process.cwd().length;
     const { filePath } = page
-    page.remoteRelativePath = filePath?.substring(cwdLen).replace(/\\/g, '/');
     const tempUpdateAPI = (options.appDomain || appDomain) + (options.updateAPI || updateAPI);
     const tempGetContentAPI = (options.appDomain || appDomain) + (options.getContentAPI || getContentAPI);
     const tempRedirectAPI = (options.appDomain || appDomain) + (options.redirectAPI || redirectAPI);
 
+    const path = filePath?.substring(cwdLen).replace(/\\/g, '/')
+      
     /** editpress 内部数据 */
     page.data.editableData = {
       appDomain: options.appDomain || appDomain,
@@ -38,9 +38,13 @@ export const editablePlugin = (options: Options) => ({
       redirectAPI: tempRedirectAPI,
       clientId: options.clientId || clientId,
       githubOAuthUrl: githubOAuthUrl,
+      path
+      
     };
     /** 原始数据 */
     page.data.content = page.content
+
+
   },
   define: {
     CAN_REVIEW: options.canReview,

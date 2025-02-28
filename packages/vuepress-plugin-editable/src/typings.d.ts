@@ -24,7 +24,7 @@ export interface ExtendPages {
 }
 
 // CSS
-declare module '*.css' {}
+declare module '*.css' { }
 declare module '*.css';
 
 declare module '*.module.css' {
@@ -39,4 +39,17 @@ export interface Options {
   redirectAPI?: string;
   clientId?: string;
   canReview?: boolean;
+}
+
+
+export interface OwnerRepo {
+  owner: string,
+  repo: string
+}
+
+export interface PoptipData {
+  success: boolean,
+  data: any,
+  message: string
+  not_found_repo_link?: string
 }

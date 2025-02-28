@@ -4,17 +4,17 @@
 import { useThemeData } from '@vuepress/plugin-theme-data/client';
 import type { ThemeData } from '@vuepress/plugin-theme-data/client';
 import type { GetOriginContent, PostSingleData } from '../typings';
-import { onUnmounted, h, watch, render, ref, onMounted, cloneVNode, createApp, provide } from 'vue'
+import { h, render, ref, onMounted, provide } from 'vue'
 import { fetchOps } from '../shared/config';
 import { usePageData, useRoute } from 'vuepress/client';
 import { useStore } from './useStore'
+import { normalizeNodeInner } from '../shared/tools';
 import Review from './components/Review';
-import { normalizeNodeInner, reloadPage } from '../shared/tools';
 
-// TODO
 export default function setup() {
   const pageData = usePageData() as Record<string, any>
   const { storeData, actions } = useStore()
+  const { repo, owner } = storeData
   const router = useRoute()
   const preNode = ref<EventTarget | null>(null)
   const isPlainTextStatus = ref(false)
@@ -112,8 +112,6 @@ export default function setup() {
    * @TODO  debug 测试
   */
   const dblClick = () => {
-    console.log('双击')
-
     if (isEditing.value) {
       return
     }
@@ -141,9 +139,6 @@ export default function setup() {
       isEditing,
       onReviewClose
     })
-    const isVNode = (editpressMounterNode as any)._vnode?.__v_isVNode;
-
-    console.log('isVNode=>', isVNode)
 
     const vpDefaultContentNode = document.getElementById('editpress-default-content') as HTMLElement | null
     if (vpDefaultContentNode) {
@@ -161,17 +156,6 @@ export default function setup() {
     if (accessToken) {
       sessionStorage.githubOAuthAccessToken = accessToken;
       sessionStorage.githubLogin = login || '';
-    }
-  }
-
-  const bindMenuEvent = (event: Event) => {
-    const target = event.target;
-    if (!(target instanceof Element)) return;
-    if (target.classList.contains('editable-apply') || target.classList.contains('editable-update')) {
-      updatePR();
-    }
-    if (target.classList.contains('editable-restore')) {
-      reloadPage();
     }
   }
 
@@ -194,7 +178,6 @@ export default function setup() {
     const content = normalizeNodeInner((node as HTMLElement)?.innerText);
 
     const line = node.getAttribute('data-editable-line');
-    const { owner, repo } = getOwnerRepo(repoPrefix);
 
     if (isPlainTextStatus) {
       onRemoveFocusEditable();
@@ -236,19 +219,6 @@ export default function setup() {
         actions.setLoading(false)
       });
   }
-  /**
-   * @return {
-   *  owner,
-   *  repo
-   * }
-   */
-  const getOwnerRepo = (ownerRepo: string) => {
-    const strArr = ownerRepo.split('/');
-    return {
-      owner: strArr[0] ? strArr[0] : '',
-      repo: strArr[1] ? strArr[1] : '',
-    };
-  }
 
 
 
@@ -274,6 +244,8 @@ export default function setup() {
       }
     });
   }
+
+
   /**
    * get origin source file content
    */
@@ -301,7 +273,6 @@ export default function setup() {
             path,
             content: data.data,
           })
-
         } else {
           actions.setPoptipData(data, true)
         }
@@ -309,14 +280,6 @@ export default function setup() {
       .catch(() => {
         actions.setLoading(false)
       });
-  }
-  /*
-   * 判断是否授权过，即检查本地是否存储 access token
-   * @return  {boolean}
-   */
-  const isOAuthStatus = () => {
-    const accessToken = router.query.accessToken;
-    return !!(accessToken && accessToken.length === 40);
   }
 
   /**
@@ -329,8 +292,4 @@ export default function setup() {
     const editableElement = preNode.value as HTMLElement; // 类型断言
     editableElement?.classList?.remove('focus-editable');
   }
-
-  // return () => {
-  //   h('div', '')
-  // }
 };

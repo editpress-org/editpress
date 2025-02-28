@@ -1,8 +1,8 @@
 
 import ParentLayout from '@vuepress/theme-default/layouts/Layout.vue'
-import { h, defineComponent, inject, computed, reactive, ref, watch, onMounted, watchEffect } from "vue";
+import { h, defineComponent, inject, watch } from "vue";
 import type { Ref } from 'vue'
-import { usePageData, useClientData, usePageFrontmatter } from 'vuepress/client';
+import { usePageData } from 'vuepress/client';
 import { offSvgCode, onSvgCode } from '../../../shared/assets';
 import { useStore } from "../../useStore";
 import type { ExtendPages } from '../../../typings';
@@ -20,10 +20,6 @@ export default defineComponent({
     const href = `${githubOAuthUrl}?client_id=${clientId}&redirect_uri=${redirectAPI}?reference=${window.location.href}`;
 
     const isEditing = inject('isEditing') as Ref<boolean>
-
-    watch(isEditing, (val) => {
-      console.log('oo isEditing=>', val)
-    })
 
     // no auth
     const noAuthVnode = () => h('a', {
@@ -65,7 +61,6 @@ export default defineComponent({
     '编辑中~'
 
     // editable-editing
-
     return () => {
       const renderVNode = storeData.isAuth ? authVNode() : noAuthVnode()
 

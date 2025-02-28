@@ -4,6 +4,8 @@
  * Compatible Chrome + Firefox for Node.innerText
  */
 
+import type { OwnerRepo } from "../typings";
+
 export const normalizeNodeInner = (text: string) => {
   return text.replace(/\s+/g, ' ').trim();
 }
